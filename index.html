@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Dashboard - RYMEC</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+    </script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+    <!-- ============================
+    LOGIN SCREEN
+    ============================ -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-box">
+            <div class="logo-icon">📊</div>
+            <h1>Student <span>Dashboard</span></h1>
+            <p class="subtitle">RYMEC · Login to continue</p>
+            <div class="form-group">
+                <label for="loginUSN">USN</label>
+                <input type="text" id="loginUSN" placeholder="Enter your USN (e.g., 3VC25CS107)" />
+            </div>
+            <div class="form-group">
+                <label for="loginDOB">Date of Birth</label>
+                <input type="text" id="loginDOB" placeholder="Enter your DOB (e.g., 15/08/2006)" />
+            </div>
+            <button class="login-btn" onclick="handleLogin()">🚀 Enter Dashboard</button>
+            <div class="login-error" id="loginError">⚠️ Please fill in all fields</div>
+            <div class="demo-hint">🔐 Login to access your personalized dashboard</div>
+        </div>
+    </div>
+
+    <!-- ============================
+    SIDEBAR OVERLAY
+    ============================ -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <!-- ============================
+    SIDEBAR
+    ============================ -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>📊 <span>Dashboard</span></h2>
+            <button class="sidebar-close" onclick="closeSidebar()">&times;</button>
+        </div>
+
+        <div class="sidebar-user" id="sidebarUser">
+            <div class="avatar" id="sidebarAvatar">V</div>
+            <div class="user-info">
+                <div class="name" id="sidebarName">VIRESH RANJANAGI</div>
+                <div class="usn" id="sidebarUSN">3VC25CS107 · II Sem CSE A</div>
+            </div>
+        </div>
+
+        <div class="sidebar-nav-wrapper">
+            <ul class="sidebar-nav">
+                <li class="nav-label">Main</li>
+                <li><a class="active" onclick="closeSidebar(); showDashboard();"><i class="fas fa-home"></i> Dashboard</a></li>
+
+                <li class="nav-label">Academics</li>
+                <li><a onclick="closeSidebar(); showDashboard(); document.getElementById('subjectsSection').scrollIntoView({behavior:'smooth'});"><i class="fas fa-book"></i> Subjects & CIE</a></li>
+                <li><a onclick="closeSidebar(); showDashboard(); document.getElementById('timetableSection').scrollIntoView({behavior:'smooth'});"><i class="fas fa-calendar-alt"></i> Timetable Gallery</a></li>
+                <li><a onclick="closeSidebar(); showDashboard(); document.getElementById('datesSection').scrollIntoView({behavior:'smooth'});"><i class="fas fa-clock"></i> Important Dates</a></li>
+
+                <li class="nav-label">Faculty</li>
+                <li><a onclick="showFacultyPage();"><i class="fas fa-user-tie"></i> Faculty List</a></li>
+
+                <li class="nav-label">More</li>
+                <li><a onclick="closeSidebar(); showToast('📊 Reports coming soon!');"><i class="fas fa-file-alt"></i> Reports</a></li>
+                <li><a onclick="closeSidebar(); showToast('⚙️ Settings coming soon!');"><i class="fas fa-cog"></i> Settings</a></li>
+
+                <li class="nav-label">About</li>
+                <li><a onclick="closeSidebar(); showAboutDeveloper();"><i class="fas fa-code"></i> About Developer</a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar-logout">
+            <button class="logout-btn" onclick="handleLogout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </div>
+
+    <!-- ============================
+    MAIN CONTAINER
+    ============================ -->
+    <div class="container" id="mainContent">
+
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-left">
+                <button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="logo">
+                    <div class="student-name" id="displayName">VIRESH <span>RANJANAGI</span></div>
+                    <span class="subtitle" id="displaySubtitle">RYMEC · II Sem CSE A · <span id="displayUSN">3VC25CS107</span></span>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="date"><i class="far fa-calendar-alt"></i> <span id="currentDate"></span></span>
+                <span class="badge-streak"><i class="fas fa-fire"></i> <span id="streakCount">15</span> Day</span>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                <span class="badge">Pro</span>
+            </div>
+        </header>
+
+        <!-- ============================
+        DASHBOARD PAGE
+        ============================ -->
+        <div id="dashboardPage">
+
+            <!-- STATS -->
+            <section class="stats-grid" id="statsGrid">
+                <div class="stat-card" onclick="showAllSubjects()">
+                    <div class="icon"><i class="fas fa-user-graduate"></i></div>
+                    <div class="info">
+                        <div class="number" id="totalSubjects">8</div>
+                        <div class="label">Total Subjects</div>
+                    </div>
+                </div>
+                <div class="stat-card" onclick="showAttendanceDetails()">
+                    <div class="icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="info">
+                        <div class="number" id="overallAttendance">78.5%</div>
+                        <div class="label">Overall Attendance</div>
+                    </div>
+                </div>
+                <div class="stat-card" onclick="showCIEDetails()">
+                    <div class="icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="info">
+                        <div class="number" id="cieAverage">22.7</div>
+                        <div class="label">CIE Marks</div>
+                    </div>
+                </div>
+                <div class="stat-card" onclick="showBelow85()">
+                    <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="info">
+                        <div class="number" id="below85">3</div>
+                        <div class="label">Below 85%</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DASHBOARD GRID -->
+            <div class="dashboard-grid">
+
+                <!-- LEFT COLUMN -->
+                <div>
+
+                    <!-- 🔥 Attendance Warning -->
+                    <div class="card" id="warningSection">
+                        <div class="card-header">
+                            <h3><i class="fas fa-exclamation-triangle" style="color:#f59e0b;"></i> Attendance Warning</h3>
+                            <span class="see-all">Need attention</span>
+                        </div>
+                        <div id="warningList">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- 🏆 Subject Ranking -->
+                    <div class="card" id="rankingSection">
+                        <div class="card-header">
+                            <h3><i class="fas fa-trophy" style="color:#f59e0b;"></i> Subject Ranking</h3>
+                            <span class="see-all">Best to worst</span>
+                        </div>
+                        <div id="rankingList">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Subjects Section -->
+                    <div class="card" id="subjectsSection">
+                        <div class="card-header">
+                            <h3><i class="fas fa-calendar-check" style="color:var(--accent);"></i> Attendance & CIE</h3>
+                            <span class="see-all" id="lastUpdated">Last updated: 21 Aug 2026</span>
+                        </div>
+                        <div id="subjectList">
+                            <!-- Subjects injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Charts -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-bar" style="color:var(--accent);"></i> Performance Overview</h3>
+                            <span class="see-all">Attendance & CIE Trends</span>
+                        </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+                            <div>
+                                <div style="font-size:12px; color:var(--text-secondary); margin-bottom:2px;">Attendance Trend</div>
+                                <div class="chart-wrapper">
+                                    <canvas id="attendanceChart"></canvas>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="font-size:12px; color:var(--text-secondary); margin-bottom:2px;">CIE Performance</div>
+                                <div class="chart-wrapper">
+                                    <canvas id="cieChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div>
+
+                    <!-- Quick Stats -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>📈 Quick Stats</h3>
+                        </div>
+                        <div id="quickStats">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- 🎯 Goal Setting -->
+                    <div class="card" id="goalSection">
+                        <div class="card-header">
+                            <h3><i class="fas fa-bullseye" style="color:#10b981;"></i> Goal Setting</h3>
+                            <span class="see-all">Set targets</span>
+                        </div>
+                        <div id="goalList">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- 🔔 Smart Notifications -->
+                    <div class="card" id="notificationSection">
+                        <div class="card-header">
+                            <h3><i class="fas fa-bell" style="color:#f59e0b;"></i> Notifications</h3>
+                            <span class="see-all" id="notificationCount">0</span>
+                        </div>
+                        <div id="notificationList">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- 🏅 Achievement Badges -->
+                    <div class="card" id="badgeSection">
+                        <div class="card-header">
+                            <h3><i class="fas fa-medal" style="color:#f59e0b;"></i> Achievements</h3>
+                            <span class="see-all" id="badgeCount">0</span>
+                        </div>
+                        <div id="badgeList">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Faculty Ratings (Home Section) -->
+                    <div class="card" id="facultySection">
+                        <div class="card-header">
+                            <h3>⭐ Faculty Ratings</h3>
+                            <span class="see-all" onclick="showFacultyPage()">View All →</span>
+                        </div>
+                        <div id="facultySummary">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Timetable Gallery -->
+                    <div class="card" id="timetableSection">
+                        <div class="card-header">
+                            <h3>📅 Semester Timetables</h3>
+                            <span class="see-all">Click to view</span>
+                        </div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px;">
+                            <button class="timetable-btn active" onclick="showTimetable('cse_a', this)">CSE A</button>
+                            <button class="timetable-btn" onclick="showTimetable('cse_b', this)">CSE B</button>
+                            <button class="timetable-btn" onclick="showTimetable('ece', this)">ECE</button>
+                            <button class="timetable-btn" onclick="showTimetable('mech', this)">MECH</button>
+                        </div>
+                        <div class="timetable-container" id="timetableContainer">
+                            <div class="placeholder-text">
+                                <i class="fas fa-image"></i>
+                                <p>👆 Click a branch above</p>
+                                <p style="font-size:12px; opacity:0.5;">Add images to /images/ folder</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Important Dates -->
+                    <div class="card" id="datesSection" style="background: linear-gradient(135deg, var(--accent), #6c63ff); color: #fff; border: none;">
+                        <h3 style="font-weight:700; margin-bottom:8px;">📌 Important Dates</h3>
+                        <div style="display:flex; flex-direction:column; gap:4px; font-size:14px;">
+                            <p>📝 CIE-1: 06-04-2026</p>
+                            <p>📝 CIE-2: 07-05-2026</p>
+                            <p>📝 CIE-3: 08-06-2026</p>
+                            <p>🔬 Practical Exam: 16-06-2026</p>
+                            <p>📖 Theory Exam: 29-06-2026</p>
+                        </div>
+                        <p style="font-size:12px; opacity:0.8; margin-top:10px;">🚀 85% attendance needed for eligibility</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- END DASHBOARD PAGE -->
+
+        <!-- ============================
+        FACULTY PAGE
+        ============================ -->
+        <div id="facultyPage" style="display:none;">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-user-tie" style="color:var(--accent);"></i> Faculty List</h3>
+                    <span class="see-all" onclick="showDashboard()">← Back to Dashboard</span>
+                </div>
+                <div id="facultyPageContent">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer style="text-align: center; padding: 20px 0 10px; color: var(--text-secondary); font-size: 13px; border-top: 1px solid var(--border-color); margin-top: 20px;">
+            <p>© 2026 Student Dashboard · Built with ❤️ by Viresh</p>
+        </footer>
+    </div>
+
+    <!-- ============================
+    MODALS
+    ============================ -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h2 id="modalTitle">📋 Details</h2>
+            <p class="subtitle" id="modalSubtitle">Click to view</p>
+            <div id="modalContent">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="ratingModal">
+        <div class="modal" style="max-width:400px;">
+            <h3>⭐ Rate Your Faculty</h3>
+            <p class="subtitle" id="modalFacultyName" style="text-align:center;">Dr. R. Kumar</p>
+            <div class="stars" id="starContainer">
+                <span class="star" data-value="1">☆</span>
+                <span class="star" data-value="2">☆</span>
+                <span class="star" data-value="3">☆</span>
+                <span class="star" data-value="4">☆</span>
+                <span class="star" data-value="5">☆</span>
+            </div>
+            <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                <button class="btn btn-primary" onclick="submitRating()">Submit</button>
+                <button class="btn btn-secondary" onclick="closeRatingModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FACULTY DETAIL MODAL -->
+    <div class="modal-overlay" id="facultyDetailModal">
+        <div class="modal" style="max-width:400px;">
+            <button class="close-btn" onclick="closeFacultyDetail()">&times;</button>
+            <div style="text-align:center;">
+                <div style="font-size:72px;" id="modalFacultyPhoto">👨‍🏫</div>
+                <h3 id="modalFacultyName" style="margin:8px 0 4px;">Dr. R. Kumar</h3>
+                <p style="color:var(--text-secondary);" id="modalFacultySubject">Subject</p>
+                <p style="color:var(--text-secondary); font-size:13px;" id="modalFacultyDept">Department</p>
+                <div class="stars" id="starContainer2" style="margin:16px 0;">
+                    <span class="star" data-value="1">☆</span>
+                    <span class="star" data-value="2">☆</span>
+                    <span class="star" data-value="3">☆</span>
+                    <span class="star" data-value="4">☆</span>
+                    <span class="star" data-value="5">☆</span>
+                </div>
+                <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="submitFacultyRating()">Submit Rating</button>
+                    <button class="btn btn-secondary" onclick="closeFacultyDetail()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABOUT DEVELOPER MODAL -->
+    <div class="modal-overlay" id="aboutModal">
+        <div class="modal" style="max-width:480px;">
+            <button class="close-btn" onclick="closeAboutModal()">&times;</button>
+            <div class="developer-card">
+                <div class="dev-avatar">V</div>
+                <div class="dev-name">VIRESH RANJANAGI</div>
+                <div class="dev-role">👨‍💻 Student Developer · RYMEC CSE</div>
+                <div class="dev-bio">
+                    Passionate about coding, building cool projects, and helping students track their academic progress. 🚀
+                </div>
+                <div class="social-links">
+                    <a href="https://github.com/veereshr4446" target="_blank">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                    <a href="https://www.linkedin.com/in/-veeresh-ranjanagi" target="_blank">
+                        <i class="fab fa-linkedin"></i> LinkedIn
+                    </a>
+                    <a href="https://www.instagram.com/__veeresh__r" target="_blank">
+                        <i class="fab fa-instagram"></i> Instagram
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle" style="color: #10b981;"></i>
+        <span id="toastMessage">Done!</span>
+    </div>
+
+    <!-- ============================
+    JAVASCRIPT FILES
+    ============================ -->
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/features.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+</html>
