@@ -1362,7 +1362,7 @@ body::before {
    RESPONSIVE - MOBILE FIRST
 ============================ */
 @media (max-width: 600px) {
-body {
+    body {
         padding: 8px;
     }
     
@@ -1370,9 +1370,9 @@ body {
         padding: 0 4px;
     }
 
-    /* ===== HEADER - FULL NAME VISIBLE ===== */
+    /* ===== HEADER - FIXED ===== */
     .header {
-        padding: 6px 8px;
+        padding: 6px 10px;
         flex-wrap: nowrap;
         gap: 4px;
         border-radius: 12px;
@@ -1385,6 +1385,7 @@ body {
         gap: 4px;
         flex: 1;
         min-width: 0;
+        overflow: hidden;
     }
     
     .hamburger {
@@ -1402,15 +1403,16 @@ body {
         flex-direction: column;
         min-width: 0;
         flex: 1;
+        overflow: hidden;
     }
     
     .logo .student-name {
-        font-size: 13px !important;
+        font-size: 12px !important;
         font-weight: 700 !important;
         white-space: nowrap;
-        overflow: visible !important;
-        text-overflow: clip !important;
-        max-width: none !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 130px !important;
         color: var(--text-primary);
         line-height: 1.2;
     }
@@ -1421,11 +1423,11 @@ body {
     
     .logo .subtitle {
         display: block !important;
-        font-size: 8px !important;
+        font-size: 7px !important;
         white-space: nowrap;
-        overflow: visible !important;
-        text-overflow: clip !important;
-        max-width: none !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 130px !important;
         color: var(--text-secondary);
         margin-top: 0 !important;
         line-height: 1.2;
@@ -1448,6 +1450,7 @@ body {
         padding: 2px 8px !important;
         white-space: nowrap;
     }
+    
     /* ===== STATS CARDS ===== */
     .stats-grid {
         grid-template-columns: 1fr 1fr;
@@ -1458,6 +1461,7 @@ body {
         padding: 10px 12px;
         gap: 8px;
         border-left-width: 3px;
+        min-height: 60px;
     }
     
     .stat-card .icon {
@@ -1550,14 +1554,6 @@ body {
     .timetable-container img {
         max-height: 200px;
     }
-    
-    .timetable-container .placeholder-text {
-        font-size: 11px;
-    }
-    
-    .timetable-container .placeholder-text i {
-        font-size: 24px;
-    }
 
     /* ===== CHARTS ===== */
     .chart-wrapper {
@@ -1572,97 +1568,6 @@ body {
     /* ===== QUICK STATS ===== */
     #quickStats div {
         font-size: 12px !important;
-        gap: 2px !important;
-    }
-
-    /* ===== GOAL SETTING ===== */
-    .goal-item .goal-header {
-        font-size: 11px;
-        flex-wrap: wrap;
-    }
-    
-    .goal-item .goal-header .goal-target {
-        font-size: 10px;
-    }
-    
-    .goal-item .btn-sm {
-        padding: 3px 8px;
-        font-size: 9px;
-    }
-
-    /* ===== NOTIFICATIONS ===== */
-    .notification-item {
-        font-size: 11px;
-        padding: 5px 0;
-        gap: 6px;
-    }
-    
-    .notification-item .notif-icon {
-        font-size: 13px;
-    }
-    
-    .notification-item .notif-time {
-        font-size: 8px;
-    }
-
-    /* ===== BADGES ===== */
-    .badge-item {
-        padding: 6px 0;
-        gap: 8px;
-    }
-    
-    .badge-item .badge-icon {
-        font-size: 18px;
-    }
-    
-    .badge-item .badge-info .badge-name {
-        font-size: 12px;
-    }
-    
-    .badge-item .badge-info .badge-desc {
-        font-size: 10px;
-    }
-    
-    .badge-item .badge-status {
-        font-size: 9px;
-    }
-
-    /* ===== WARNINGS ===== */
-    .warning-item {
-        font-size: 11px;
-        padding: 5px 0;
-        gap: 6px;
-        flex-wrap: wrap;
-    }
-    
-    .warning-item .warning-icon {
-        font-size: 13px;
-    }
-    
-    .warning-item .warning-status {
-        font-size: 9px;
-        padding: 2px 6px;
-    }
-
-    /* ===== RANKING ===== */
-    .ranking-item {
-        font-size: 11px;
-        padding: 3px 0;
-        gap: 6px;
-        flex-wrap: wrap;
-    }
-    
-    .ranking-item .rank-number {
-        font-size: 12px;
-        min-width: 20px;
-    }
-    
-    .ranking-item .rank-medal {
-        font-size: 14px;
-    }
-    
-    .ranking-item .rank-attendance {
-        font-size: 12px;
     }
 
     /* ===== MODALS ===== */
@@ -1678,47 +1583,6 @@ body {
     
     .modal .subtitle {
         font-size: 11px;
-        margin-bottom: 10px;
-    }
-    
-    .modal .close-btn {
-        font-size: 16px;
-    }
-    
-    .modal-item {
-        font-size: 11px;
-        padding: 5px 0;
-    }
-    
-    .modal-grid {
-        grid-template-columns: 1fr;
-        gap: 5px;
-    }
-    
-    .cie-cell .cie-label {
-        font-size: 8px;
-    }
-    
-    .cie-cell .cie-value {
-        font-size: 14px;
-    }
-
-    /* ===== RATING STARS ===== */
-    .stars {
-        font-size: 26px;
-        letter-spacing: 3px;
-    }
-
-    /* ===== BUTTONS ===== */
-    .btn {
-        padding: 6px 12px;
-        font-size: 11px;
-        border-radius: 6px;
-    }
-    
-    .btn-sm {
-        padding: 3px 8px;
-        font-size: 9px;
     }
 
     /* ===== SIDEBAR ===== */
@@ -1731,83 +1595,11 @@ body {
     .sidebar.open {
         left: 0;
     }
-    
-    .sidebar-header h2 {
-        font-size: 16px;
-    }
-    
-    .sidebar-user {
-        padding: 8px 10px;
-        gap: 8px;
-    }
-    
-    .sidebar-user .avatar {
-        width: 32px;
-        height: 32px;
-        font-size: 12px;
-    }
-    
-    .sidebar-user .user-info .name {
-        font-size: 12px;
-    }
-    
-    .sidebar-user .user-info .usn {
-        font-size: 9px;
-    }
-    
-    .sidebar-nav li a {
-        font-size: 11px;
-        padding: 6px 10px;
-        gap: 8px;
-    }
-    
-    .sidebar-nav li a i {
-        font-size: 13px;
-        width: 16px;
-    }
-    
-    .sidebar-nav .nav-label {
-        font-size: 8px;
-        padding: 4px 10px 2px;
-    }
-    
-    .sidebar-logout .logout-btn {
-        font-size: 11px;
-        padding: 8px 12px;
-        border-radius: 8px;
-    }
 
     /* ===== LOGIN ===== */
     .login-box {
         padding: 20px 14px;
         max-width: 95%;
-    }
-    
-    .login-box .logo-icon {
-        font-size: 30px;
-    }
-    
-    .login-box h1 {
-        font-size: 18px;
-    }
-    
-    .login-box .subtitle {
-        font-size: 11px;
-        margin-bottom: 12px;
-    }
-    
-    .login-box .form-group input {
-        padding: 8px 12px;
-        font-size: 12px;
-    }
-    
-    .login-box .login-btn {
-        padding: 10px;
-        font-size: 13px;
-    }
-    
-    .login-box .demo-hint {
-        font-size: 9px;
     }
 
     /* ===== SOCIAL LINKS ===== */
@@ -1818,99 +1610,6 @@ body {
     .social-links a {
         padding: 4px 10px;
         font-size: 10px;
-        border-radius: 6px;
-    }
-    
-    .social-links a i {
-        font-size: 12px;
-    }
-
-    /* ===== DEVELOPER CARD ===== */
-    .developer-card .dev-avatar {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-    }
-    
-    .developer-card .dev-name {
-        font-size: 15px;
-    }
-    
-    .developer-card .dev-role {
-        font-size: 11px;
-    }
-    
-    .developer-card .dev-bio {
-        font-size: 11px;
-    }
-
-    /* ===== IMPORTANT DATES ===== */
-    #datesSection div[style*="display:flex"] {
-        font-size: 11px !important;
-        gap: 2px !important;
-    }
-    
-    #datesSection h3 {
-        font-size: 14px !important;
-    }
-
-    /* ===== FOOTER ===== */
-    footer {
-        font-size: 10px !important;
-        padding: 12px 0 6px !important;
-    }
-    
-    footer span {
-        font-size: 9px !important;
-    }
-
-    /* ===== SETTINGS PAGE ===== */
-    #settingsPage .card > div {
-        gap: 8px !important;
-    }
-    
-    #settingsPage .btn-sm {
-        font-size: 9px !important;
-        padding: 3px 8px !important;
-    }
-    
-    #settingsPage strong {
-        font-size: 12px !important;
-    }
-    
-    #settingsPage p {
-        font-size: 9px !important;
-    }
-    
-    #settingsPage .btn-primary {
-        font-size: 9px !important;
-        padding: 3px 8px !important;
-    }
-
-    /* ===== FACULTY PAGE ===== */
-    #facultyPageContent > div {
-        grid-template-columns: 1fr 1fr !important;
-        gap: 8px !important;
-    }
-    
-    .faculty-card {
-        padding: 10px !important;
-    }
-    
-    .faculty-card h4 {
-        font-size: 12px !important;
-    }
-    
-    .faculty-card p {
-        font-size: 10px !important;
-    }
-    
-    .faculty-card div[style*="font-size:64px"] {
-        font-size: 32px !important;
-    }
-    
-    .faculty-card div[style*="font-size:20px"] {
-        font-size: 14px !important;
     }
 }
 
