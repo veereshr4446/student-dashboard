@@ -108,13 +108,26 @@
                 </div>
             </div>
             <div class="header-right">
-                <span class="date"><i class="far fa-calendar-alt"></i> <span id="currentDate"></span></span>
-                <span class="badge-streak"><i class="fas fa-fire"></i> <span id="streakCount">15</span> Day</span>
-                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-                    <i class="fas fa-moon" id="themeIcon"></i>
-                </button>
-                <span class="badge">Pro</span>
+            <!-- Search Button -->
+            <button class="search-btn" onclick="toggleSearch()" aria-label="Search">
+                <i class="fas fa-search"></i>
+            </button>
+            <span class="badge-streak"><i class="fas fa-fire"></i> <span id="streakCount">15</span> Day</span>
+            <span class="badge">Pro</span>
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
+        </div>
+
+        <!-- Search Bar (Hidden by default) -->
+        <div id="searchBar" style="display:none; padding:10px 0; width:100%;">
+            <div style="display:flex; gap:10px; align-items:center; background:var(--bg-card); padding:8px 14px; border-radius:12px; border:2px solid var(--accent);">
+                <i class="fas fa-search" style="color:var(--text-secondary);"></i>
+                <input type="text" id="searchInput" placeholder="Search by name, USN, or branch..." style="flex:1; background:none; border:none; outline:none; color:var(--text-primary); font-size:14px;">
+                <button onclick="closeSearch()" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:18px;">&times;</button>
             </div>
+            <div id="searchResults" style="margin-top:8px; max-height:300px; overflow-y:auto; background:var(--bg-card); border-radius:12px; border:1px solid var(--border-color); display:none;"></div>
+        </div>
         </header>
 
         <!-- ============================
