@@ -51,19 +51,6 @@ body {
     overflow-x: hidden;
 }
 
-body::before {
-    content: '';
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at 30% 40%, rgba(79, 125, 243, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 70% 60%, rgba(108, 99, 255, 0.02) 0%, transparent 50%);
-    z-index: -1;
-    pointer-events: none;
-}
-
 ::-webkit-scrollbar {
     width: 6px;
 }
@@ -402,18 +389,6 @@ body::before {
     margin-bottom: 24px;
     border: 1px solid var(--border-color);
     transition: background var(--transition);
-    animation: slideDown 0.5s ease;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-16px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 .header-left {
@@ -467,11 +442,6 @@ body::before {
     gap: 12px;
     flex-wrap: wrap;
 }
-.header-right .date {
-    color: var(--text-secondary);
-    font-weight: 500;
-    font-size: 13px;
-}
 
 .badge {
     background: var(--accent);
@@ -482,32 +452,7 @@ body::before {
     font-weight: 700;
     letter-spacing: 0.3px;
 }
-.badge-streak {
-    background: var(--warning-color);
-    color: #fff;
-    padding: 4px 14px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-}
-.theme-toggle {
-    background: none;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 6px;
-    border-radius: 50%;
-    transition: all var(--transition);
-    color: var(--text-primary);
-}
-.theme-toggle:hover {
-    background: var(--hover-bg);
-    transform: rotate(30deg);
-}
 
-/* ============================
-   SEARCH BUTTON
-============================ */
 .search-btn {
     background: none;
     border: none;
@@ -581,35 +526,6 @@ body::before {
     border: 1px solid var(--border-color);
     cursor: pointer;
     user-select: none;
-    animation: fadeUp 0.5s ease forwards;
-    opacity: 0;
-}
-
-.stat-card:nth-child(1) { animation-delay: 0.05s; }
-.stat-card:nth-child(2) { animation-delay: 0.1s; }
-.stat-card:nth-child(3) { animation-delay: 0.15s; }
-.stat-card:nth-child(4) { animation-delay: 0.2s; }
-.stat-card:nth-child(5) { animation-delay: 0.25s; }
-.stat-card:nth-child(6) { animation-delay: 0.3s; }
-
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.stat-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    border-color: var(--accent);
-}
-.stat-card:active {
-    transform: scale(0.97);
 }
 
 .stat-card .icon {
@@ -643,6 +559,15 @@ body::before {
 .stat-card:nth-child(5) .icon { color: var(--danger-color); background: rgba(239, 68, 68, 0.1); }
 .stat-card:nth-child(6) .icon { color: #8b5cf6; background: rgba(139, 92, 246, 0.1); }
 
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    border-color: var(--accent);
+}
+.stat-card:active {
+    transform: scale(0.97);
+}
+
 /* ============================
    DASHBOARD GRID
 ============================ */
@@ -669,12 +594,7 @@ body::before {
     margin-bottom: 20px;
     border: 1px solid var(--border-color);
     transition: all var(--transition);
-    animation: fadeUp 0.5s ease forwards;
-    opacity: 0;
 }
-
-.card:nth-child(1) { animation-delay: 0.15s; }
-.card:nth-child(2) { animation-delay: 0.2s; }
 
 .card-header {
     display: flex;
@@ -700,7 +620,7 @@ body::before {
 }
 
 /* ============================
-   SUBJECT ROW - EXTRA LONG PROGRESS BAR
+   SUBJECT ROW
 ============================ */
 .subject-row {
     display: flex;
@@ -709,19 +629,8 @@ body::before {
     padding: 12px 0;
     border-bottom: 1px solid var(--border-color);
     transition: all var(--transition);
-    animation: fadeUp 0.3s ease forwards;
-    opacity: 0;
     gap: 16px;
 }
-
-.subject-row:nth-child(1) { animation-delay: 0.04s; }
-.subject-row:nth-child(2) { animation-delay: 0.07s; }
-.subject-row:nth-child(3) { animation-delay: 0.1s; }
-.subject-row:nth-child(4) { animation-delay: 0.13s; }
-.subject-row:nth-child(5) { animation-delay: 0.16s; }
-.subject-row:nth-child(6) { animation-delay: 0.19s; }
-.subject-row:nth-child(7) { animation-delay: 0.22s; }
-.subject-row:nth-child(8) { animation-delay: 0.25s; }
 
 .subject-row:last-child {
     border-bottom: none;
@@ -799,7 +708,6 @@ body::before {
     transform: scale(1.05);
 }
 
-/* EXTRA LONG PROGRESS BAR - FULL WIDTH */
 .progress-wrapper {
     width: 100%;
     margin-top: 4px;
@@ -825,8 +733,10 @@ body::before {
 }
 .fill.danger {
     background: linear-gradient(90deg, var(--danger-color), #f87171);
-}/* ============================
-   TIMETABLE GALLERY
+}
+
+/* ============================
+   TIMETABLE
 ============================ */
 .timetable-btn {
     padding: 8px 20px;
@@ -867,16 +777,6 @@ body::before {
     max-height: 380px;
     border-radius: 8px;
     animation: fadeIn 0.4s ease;
-}
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.96);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
 }
 .timetable-container .placeholder-text {
     color: var(--text-secondary);
@@ -1078,7 +978,7 @@ body::before {
 }
 
 /* ============================
-   ABOUT DEVELOPER - SOCIAL LINKS
+   SOCIAL LINKS
 ============================ */
 .developer-card {
     text-align: center;
@@ -1154,7 +1054,7 @@ body::before {
 }
 
 /* ============================
-   FEATURES - WARNING, RANKING, GOALS, NOTIFICATIONS, BADGES
+   FEATURES
 ============================ */
 .warning-item {
     display: flex;
@@ -1357,18 +1257,16 @@ body::before {
 }
 
 /* ============================
-   RESPONSIVE - MOBILE FIRST
+   RESPONSIVE
 ============================ */
 @media (max-width: 600px) {
     body {
         padding: 8px;
     }
-    
     .container {
         padding: 0 4px;
     }
 
-    /* ===== HEADER ===== */
     .header {
         padding: 6px 10px;
         flex-wrap: nowrap;
@@ -1376,7 +1274,6 @@ body::before {
         border-radius: 12px;
         min-height: 44px;
     }
-    
     .header-left {
         display: flex;
         align-items: center;
@@ -1385,17 +1282,14 @@ body::before {
         min-width: 0;
         overflow: hidden;
     }
-    
     .hamburger {
         padding: 4px 2px !important;
         flex-shrink: 0;
     }
-    
     .hamburger span {
         width: 16px !important;
         height: 2px !important;
     }
-    
     .logo {
         display: flex;
         flex-direction: column;
@@ -1403,7 +1297,6 @@ body::before {
         flex: 1;
         overflow: hidden;
     }
-    
     .logo .student-name {
         font-size: 12px !important;
         font-weight: 700 !important;
@@ -1414,11 +1307,9 @@ body::before {
         color: var(--text-primary);
         line-height: 1.2;
     }
-    
     .logo .student-name span {
         color: var(--accent);
     }
-    
     .logo .subtitle {
         display: block !important;
         font-size: 7px !important;
@@ -1430,225 +1321,181 @@ body::before {
         margin-top: 0 !important;
         line-height: 1.2;
     }
-    
     .header-right {
         display: flex;
         align-items: center;
         gap: 4px;
         flex-shrink: 0;
     }
-    
     .search-btn {
         font-size: 14px !important;
         padding: 2px 6px !important;
     }
-    
     .badge {
         font-size: 8px !important;
         padding: 2px 8px !important;
         white-space: nowrap;
     }
 
-    /* ===== STATS CARDS ===== */
     .stats-grid {
         grid-template-columns: 1fr 1fr;
         gap: 8px;
     }
-    
     .stat-card {
         padding: 10px 12px;
         gap: 8px;
         border-left-width: 3px;
         min-height: 60px;
     }
-    
     .stat-card .icon {
         width: 30px;
         height: 30px;
         font-size: 14px;
         border-radius: 8px;
     }
-    
     .stat-card .info .number {
         font-size: 16px;
     }
-    
     .stat-card .info .label {
         font-size: 10px;
     }
 
-    /* ===== CARDS ===== */
     .card {
         padding: 10px 12px;
         margin-bottom: 10px;
         border-radius: 12px;
     }
-    
     .card-header h3 {
         font-size: 14px;
     }
-    
     .card-header .see-all {
         font-size: 10px;
     }
 
-    /* ===== SUBJECT ROWS ===== */
     .subject-row {
         flex-direction: column;
         align-items: stretch;
         padding: 8px 0;
         gap: 4px;
     }
-    
     .subject-info .name {
         font-size: 12px;
     }
-    
     .subject-info .code {
         font-size: 10px;
     }
-    
     .subject-info .faculty {
         font-size: 10px;
     }
-    
     .subject-stats {
         min-width: unset;
         width: 100%;
         max-width: 100%;
         align-items: stretch;
     }
-    
     .subject-stats .top-row {
         justify-content: space-between;
         width: 100%;
     }
-    
     .subject-stats .attendance {
         font-size: 14px;
     }
-    
     .rating-btn {
         font-size: 11px;
         padding: 2px 6px;
     }
-    
     .progress-bar {
         height: 5px;
     }
 
-    /* ===== TIMETABLE ===== */
     .timetable-btn {
         padding: 4px 10px;
         font-size: 10px;
         border-radius: 6px;
     }
-
     .timetable-container {
         min-height: 100px;
         padding: 10px;
     }
-    
     .timetable-container img {
         max-height: 200px;
     }
 
-    /* ===== CHARTS ===== */
     .chart-wrapper {
         height: 80px;
     }
-    
     .dashboard-grid .card > div[style*="grid-template-columns"] {
         grid-template-columns: 1fr !important;
         gap: 8px !important;
     }
 
-    /* ===== QUICK STATS ===== */
     #quickStats div {
         font-size: 12px !important;
     }
 
-    /* ===== MODALS ===== */
     .modal {
         padding: 14px 16px;
         max-width: 95%;
         border-radius: 14px;
     }
-    
     .modal h2 {
         font-size: 16px;
     }
-    
     .modal .subtitle {
         font-size: 11px;
     }
 
-    /* ===== SIDEBAR ===== */
     .sidebar {
         width: 250px;
         left: -270px;
         padding: 14px;
     }
-    
     .sidebar.open {
         left: 0;
     }
 
-    /* ===== LOGIN ===== */
     .login-box {
         padding: 20px 14px;
         max-width: 95%;
     }
 
-    /* ===== SOCIAL LINKS ===== */
     .social-links {
         gap: 8px;
     }
-    
     .social-links a {
         padding: 4px 10px;
         font-size: 10px;
     }
 }
 
-/* ============================
-   EXTRA SMALL (Under 400px)
-============================ */
 @media (max-width: 400px) {
     .stats-grid {
         grid-template-columns: 1fr 1fr;
         gap: 5px;
     }
-    
     .stat-card {
         padding: 6px 8px;
         gap: 6px;
     }
-    
     .stat-card .icon {
         width: 24px;
         height: 24px;
         font-size: 11px;
     }
-    
     .stat-card .info .number {
         font-size: 13px;
     }
-    
     .stat-card .info .label {
         font-size: 8px;
     }
-    
     .logo .student-name {
         font-size: 10px !important;
         max-width: 80px;
     }
-    
     .logo .subtitle {
         font-size: 6px !important;
         max-width: 80px;
     }
-    
     #facultyPageContent > div {
         grid-template-columns: 1fr !important;
     }
