@@ -542,6 +542,13 @@ function updateStatsNumbers() {
     animateNumber('overallAttendance', getOverallAttendance(), 1);
     animateNumber('cieAverage', getOverallCIE(), 1);
     animateNumber('below85', getBelow85().length);
+
+    // Update streak card
+    const streak = parseInt(localStorage.getItem('streak')) || 0;
+    const streakCard = document.getElementById('streakCardCount');
+    if (streakCard) {
+        streakCard.textContent = streak;
+    }
 }
 
 function animateNumber(id, target, decimals = 0) {
@@ -1044,7 +1051,38 @@ function init() {
     console.log('📊 Settings page with export, notifications, goals');
     console.log('💫 Auto-refresh system ready');
 }
+// ============================================================
+//  COLLEGE EVENTS
+// ============================================================
 
+function showCollegeEvents() {
+    openModal(
+        '📅 College Events',
+        'Stay tuned for upcoming events!',
+        `
+        <div style="text-align:center; padding:30px 20px;">
+            <div style="font-size:64px; margin-bottom:16px;">📅</div>
+            <h3 style="font-size:20px; font-weight:700; color:var(--text-primary); margin-bottom:8px;">
+                🚀 Coming Soon!
+            </h3>
+            <p style="color:var(--text-secondary); font-size:14px; max-width:300px; margin:0 auto;">
+                We're working on bringing you all the latest college events, workshops, and important dates in one place!
+            </p>
+            <div style="margin-top:20px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                <span style="background:var(--bg-primary); padding:6px 16px; border-radius:20px; font-size:12px; color:var(--text-secondary);">🎯 Workshops</span>
+                <span style="background:var(--bg-primary); padding:6px 16px; border-radius:20px; font-size:12px; color:var(--text-secondary);">🏆 Competitions</span>
+                <span style="background:var(--bg-primary); padding:6px 16px; border-radius:20px; font-size:12px; color:var(--text-secondary);">🎓 Guest Lectures</span>
+                <span style="background:var(--bg-primary); padding:6px 16px; border-radius:20px; font-size:12px; color:var(--text-secondary);">🎉 Festivals</span>
+            </div>
+            <div style="margin-top:16px; padding:12px; background:var(--accent-light); border-radius:10px; border:1px dashed var(--accent);">
+                <p style="font-size:13px; color:var(--text-secondary);">
+                    💡 <strong>Pro Tip:</strong> Check back here for upcoming events!
+                </p>
+            </div>
+        </div>
+        `
+    );
+}
 // Initialize when page loads
 init();
 
