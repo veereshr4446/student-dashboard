@@ -1362,7 +1362,7 @@ body::before {
    RESPONSIVE - MOBILE FIRST
 ============================ */
 @media (max-width: 600px) {
-    body {
+body {
         padding: 8px;
     }
     
@@ -1370,22 +1370,26 @@ body::before {
         padding: 0 4px;
     }
 
-    /* ===== HEADER ===== */
+    /* ===== HEADER - FULL NAME VISIBLE ===== */
     .header {
-        padding: 6px 10px;
+        padding: 6px 8px;
         flex-wrap: nowrap;
         gap: 4px;
         border-radius: 12px;
+        min-height: 44px;
     }
     
     .header-left {
+        display: flex;
+        align-items: center;
+        gap: 4px;
         flex: 1;
         min-width: 0;
-        gap: 4px;
     }
     
     .hamburger {
         padding: 4px 2px !important;
+        flex-shrink: 0;
     }
     
     .hamburger span {
@@ -1393,21 +1397,36 @@ body::before {
         height: 2px !important;
     }
     
+    .logo {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        flex: 1;
+    }
+    
     .logo .student-name {
-        font-size: 12px !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 120px;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        max-width: none !important;
+        color: var(--text-primary);
+        line-height: 1.2;
+    }
+    
+    .logo .student-name span {
+        color: var(--accent);
     }
     
     .logo .subtitle {
         display: block !important;
-        font-size: 7px !important;
+        font-size: 8px !important;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 120px;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        max-width: none !important;
+        color: var(--text-secondary);
         margin-top: 0 !important;
         line-height: 1.2;
     }
@@ -1429,7 +1448,6 @@ body::before {
         padding: 2px 8px !important;
         white-space: nowrap;
     }
-
     /* ===== STATS CARDS ===== */
     .stats-grid {
         grid-template-columns: 1fr 1fr;
