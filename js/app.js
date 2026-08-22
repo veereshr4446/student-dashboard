@@ -323,14 +323,24 @@ document.addEventListener('click', function(e) {
 function showDashboard() {
     document.getElementById('dashboardPage').style.display = 'block';
     document.getElementById('facultyPage').style.display = 'none';
+    document.getElementById('settingsPage').style.display = 'none';
     closeSidebar();
 }
 
 function showFacultyPage() {
     document.getElementById('dashboardPage').style.display = 'none';
     document.getElementById('facultyPage').style.display = 'block';
+    document.getElementById('settingsPage').style.display = 'none';
     renderFacultyPage();
     closeSidebar();
+}
+
+function showSettings() {
+    document.getElementById('dashboardPage').style.display = 'none';
+    document.getElementById('facultyPage').style.display = 'none';
+    document.getElementById('settingsPage').style.display = 'block';
+    closeSidebar();
+    updateNotifButton();
 }
 
 // ============================================================
@@ -677,6 +687,326 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============================================================
+//  SETTINGS FUNCTIONS
+// ============================================================
+
+function updateNotifButton() {
+    const notifEnabled = localStorage.getItem('notificationsEnabled') !== 'false';
+    const btn = document.getElementById('notifToggleBtn');
+    if (btn) {
+        btn.textContent = notifEnabled ? 'Disable' : 'Enable';
+        btn.className = notifEnabled ? 'btn btn-danger btn-sm' : 'btn btn-primary btn-sm';
+    }
+}
+
+function setDefaultGoal(goal) {
+    localStorage.setItem('defaultGoal', goal);
+    showToast(`🎯 Default goal set to ${goal}%`);
+}
+
+function toggleNotifications() {
+    const current = localStorage.getItem('notificationsEnabled');
+    const newState = current === 'false' ? 'true' : 'false';
+    localStorage.setItem('notificationsEnabled', newState);
+    updateNotifButton();
+    showToast(`🔔 Notifications ${newState === 'true' ? 'enabled' : 'disabled'}`);
+}
+
+function refreshData() {
+    showToast('🔄 Refreshing data...');
+    setTimeout(() => {
+        renderDashboard();
+        showToast('✅ Data refreshed!');
+    }, 1000);
+}
+
+// ============================================================
+//  EXPORT PDF FUNCTION
+// ============================================================
+
+function exportPDF() {
+    showToast('📄 Generating report...');
+
+    // Get student info
+    const name = localStorage.getItem('userName') || 'VIRESH RANJANAGI';
+    const usn = localStorage.getItem('userUSN') || '3VC25CS107';
+    const branch = 'Computer Science & Engineering';
+    const semester = 'II (2nd Semester)';
+    const date = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    // Calculate stats
+    const overallAtt = getOverallAttendance().toFixed(1);
+    const avgCIE = getOverallCIE().toFixed(1);
+    const below85 = getBelow85().length;
+    const streak = localStorage.getItem('streak') || 0;
+
+    // Get faculty ratings
+    const ratings = JSON.parse(localStorage.getItem('facultyRatings')) || {};
+
+    // Build HTML content for PDF
+    let html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Academic Report - ${usn}</title>
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body {
+                font-family: 'Segoe UI', Arial, sans-serif;
+                background: #fff;
+                padding: 40px;
+                max-width: 900px;
+                margin: 0 auto;
+            }
+            .header {
+                text-align: center;
+                border-bottom: 3px solid #4f7df3;
+                padding-bottom: 20px;
+                margin-bottom: 30px;
+            }
+            .header .title {
+                font-size: 32px;
+                font-weight: 800;
+                color: #1a2332;
+                letter-spacing: 1px;
+            }
+            .header .title span { color: #4f7df3; }
+            .section { margin-bottom: 30px; }
+            .section-title {
+                font-size: 18px;
+                font-weight: 700;
+                color: #1a2332;
+                border-bottom: 2px solid #eaedf2;
+                padding-bottom: 8px;
+                margin-bottom: 16px;
+            }
+            .info-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                background: #f5f7fa;
+                padding: 16px 20px;
+                border-radius: 12px;
+            }
+            .info-item {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 14px;
+            }
+            .info-item .label { font-weight: 600; color: #1a2332; }
+            .info-item .value { color: #4f7df3; font-weight: 600; }
+            .stats-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                gap: 12px;
+            }
+            .stat-box {
+                background: #f5f7fa;
+                padding: 14px;
+                border-radius: 10px;
+                text-align: center;
+            }
+            .stat-box .number {
+                font-size: 24px;
+                font-weight: 800;
+                color: #1a2332;
+            }
+            .stat-box .label {
+                font-size: 12px;
+                color: #6b7a8f;
+                margin-top: 2px;
+            }
+            .stat-box.good .number { color: #10b981; }
+            .stat-box.warning .number { color: #f59e0b; }
+            .stat-box.danger .number { color: #ef4444; }
+            .stat-box.accent .number { color: #4f7df3; }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 14px;
+            }
+            table th {
+                background: #4f7df3;
+                color: #fff;
+                padding: 10px 12px;
+                text-align: left;
+            }
+            table td {
+                padding: 8px 12px;
+                border-bottom: 1px solid #eaedf2;
+            }
+            table tr:hover { background: #f5f7fa; }
+            table .att-good { color: #10b981; font-weight: 700; }
+            table .att-warning { color: #f59e0b; font-weight: 700; }
+            table .att-danger { color: #ef4444; font-weight: 700; }
+            .footer {
+                text-align: center;
+                border-top: 2px solid #eaedf2;
+                padding-top: 20px;
+                margin-top: 30px;
+                font-size: 12px;
+                color: #6b7a8f;
+            }
+            .footer .brand { color: #4f7df3; font-weight: 600; }
+            @media print {
+                body { padding: 20px; }
+                .stat-box { background: #f5f7fa; }
+            }
+        </style>
+    </head>
+    <body>
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="title">📊 <span>Academic</span> Report</div>
+        </div>
+
+        <!-- STUDENT INFO -->
+        <div class="section">
+            <div class="section-title">👤 Student Information</div>
+            <div class="info-grid">
+                <div class="info-item"><span class="label">Name:</span> <span class="value">${name}</span></div>
+                <div class="info-item"><span class="label">USN:</span> <span class="value">${usn}</span></div>
+                <div class="info-item"><span class="label">Branch:</span> <span class="value">${branch}</span></div>
+                <div class="info-item"><span class="label">Semester:</span> <span class="value">${semester}</span></div>
+                <div class="info-item"><span class="label">Report Date:</span> <span class="value">${date}</span></div>
+                <div class="info-item"><span class="label">🔥 Streak:</span> <span class="value">${streak} days</span></div>
+            </div>
+        </div>
+
+        <!-- PERFORMANCE SUMMARY -->
+        <div class="section">
+            <div class="section-title">📊 Performance Summary</div>
+            <div class="stats-grid">
+                <div class="stat-box accent">
+                    <div class="number">${overallAtt}%</div>
+                    <div class="label">Overall Attendance</div>
+                </div>
+                <div class="stat-box accent">
+                    <div class="number">${avgCIE}/25</div>
+                    <div class="label">Avg CIE Marks</div>
+                </div>
+                <div class="stat-box ${below85 > 0 ? 'danger' : 'good'}">
+                    <div class="number">${below85}</div>
+                    <div class="label">Subjects Below 85%</div>
+                </div>
+                <div class="stat-box good">
+                    <div class="number">${subjectsData.filter(s => s.attendance >= 85).length}</div>
+                    <div class="label">Subjects Above 85%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUBJECT-WISE REPORT -->
+        <div class="section">
+            <div class="section-title">📚 Subject-Wise Report</div>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Subject Code</th><th>Subject Name</th><th>Attendance</th><th>CIE (Best 2)</th></tr>
+                </thead>
+                <tbody>
+                    ${subjectsData.map((sub, i) => {
+                        const status = getStatus(sub.attendance);
+                        const attClass = status === 'good' ? 'att-good' : status === 'warning' ? 'att-warning' : 'att-danger';
+                        const bestTwo = getBestTwo(sub);
+                        return `
+                            <tr>
+                                <td>${i + 1}</td>
+                                <td>${sub.code}</td>
+                                <td>${sub.name}</td>
+                                <td class="${attClass}">${sub.attendance}%</td>
+                                <td>${bestTwo}/50</td>
+                            </tr>
+                        `;
+                    }).join('')}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- CIE MARKS BREAKDOWN -->
+        <div class="section">
+            <div class="section-title">📝 CIE Marks Breakdown</div>
+            <table>
+                <thead>
+                    <tr><th>Subject</th><th>CIE-1</th><th>CIE-2</th><th>CIE-3</th><th>Best 2</th></tr>
+                </thead>
+                <tbody>
+                    ${subjectsData.map(sub => {
+                        const bestTwo = getBestTwo(sub);
+                        return `
+                            <tr>
+                                <td>${sub.code}</td>
+                                <td>${sub.cie[0]}/25</td>
+                                <td>${sub.cie[1]}/25</td>
+                                <td>${sub.cie[2]}/25</td>
+                                <td><strong>${bestTwo}/50</strong></td>
+                            </tr>
+                        `;
+                    }).join('')}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- FACULTY RATINGS -->
+        <div class="section">
+            <div class="section-title">⭐ Faculty Ratings</div>
+            <table>
+                <thead>
+                    <tr><th>Faculty Name</th><th>Subject</th><th>Rating</th></tr>
+                </thead>
+                <tbody>
+                    ${facultyData.map(f => {
+                        const rating = ratings[f.name] || 0;
+                        const stars = '⭐'.repeat(rating) + '☆'.repeat(5 - rating);
+                        return `
+                            <tr>
+                                <td>${f.name}</td>
+                                <td>${f.subject}</td>
+                                <td>${stars}</td>
+                            </tr>
+                        `;
+                    }).join('')}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- IMPORTANT DATES -->
+        <div class="section">
+            <div class="section-title">📌 Important Dates</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; background:#f5f7fa; padding:16px 20px; border-radius:12px; font-size:14px;">
+                <div>📝 CIE-1: 06-04-2026</div>
+                <div>📝 CIE-2: 07-05-2026</div>
+                <div>📝 CIE-3: 08-06-2026</div>
+                <div>🔬 Practical Exam: 16-06-2026</div>
+                <div>📖 Theory Exam: 29-06-2026</div>
+                <div>🚀 85% attendance needed for eligibility</div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p>✨ Generated by <span class="brand">Student Dashboard</span></p>
+            <p style="margin-top:4px;">© 2026 · Built with ❤️ by Viresh</p>
+        </div>
+
+    </body>
+    </html>
+    `;
+
+    // Open in new window for printing/saving as PDF
+    const win = window.open('', '_blank');
+    win.document.write(html);
+    win.document.close();
+
+    setTimeout(() => {
+        win.print();
+        showToast('📄 Report ready!');
+    }, 500);
+}
+
+// ============================================================
 //  INITIALIZATION
 // ============================================================
 
@@ -687,14 +1017,18 @@ function init() {
 
     if (isLoggedIn) {
         // Start auto-refresh for ksign
-        startAutoRefresh();
+        if (typeof startAutoRefresh === 'function') {
+            startAutoRefresh();
+        }
         
         // Check ksign on load
-        checkKsignOnLoad().then(ksign => {
-            if (ksign) {
-                console.log('✅ Session ready');
-            }
-        });
+        if (typeof checkKsignOnLoad === 'function') {
+            checkKsignOnLoad().then(ksign => {
+                if (ksign) {
+                    console.log('✅ Session ready');
+                }
+            });
+        }
         
         renderDashboard();
 
@@ -706,9 +1040,9 @@ function init() {
 
     setDate();
 
-    console.log('🚀 Student Dashboard v12.0 - Auto-Refresh! 😆🔥');
-    console.log('⏰ ksign auto-refreshes every 5 minutes');
-    console.log('💫 Students stay logged in forever!');
+    console.log('🚀 Student Dashboard v13.0 - Complete! 😆🔥');
+    console.log('📊 Settings page with export, notifications, goals');
+    console.log('💫 Auto-refresh system ready');
 }
 
 // Initialize when page loads
@@ -746,8 +1080,14 @@ window.submitRating = submitRating;
 window.setDate = setDate;
 window.showDashboard = showDashboard;
 window.showFacultyPage = showFacultyPage;
+window.showSettings = showSettings;
 window.openFacultyDetail = openFacultyDetail;
 window.closeFacultyDetail = closeFacultyDetail;
 window.submitFacultyRating = submitFacultyRating;
 window.getStarHTML = getStarHTML;
 window.facultyData = facultyData;
+window.setDefaultGoal = setDefaultGoal;
+window.toggleNotifications = toggleNotifications;
+window.refreshData = refreshData;
+window.exportPDF = exportPDF;
+window.updateNotifButton = updateNotifButton;
