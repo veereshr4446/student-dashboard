@@ -597,98 +597,7 @@ function closeSidebar() {
 function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-// ============================================================
-//  SEARCH SYSTEM
-// ============================================================
 
-function toggleSearch() {
-    const searchBar = document.getElementById('searchBar');
-    const searchInput = document.getElementById('searchInput');
-    
-    if (searchBar.style.display === 'none') {
-        searchBar.style.display = 'block';
-        searchInput.focus();
-    } else {
-        searchBar.style.display = 'none';
-        document.getElementById('searchResults').style.display = 'none';
-    }
-}
-
-function closeSearch() {
-    document.getElementById('searchBar').style.display = 'none';
-    document.getElementById('searchResults').style.display = 'none';
-    document.getElementById('searchInput').value = '';
-}
-
-function performSearch(query) {
-    const results = document.getElementById('searchResults');
-    if (!query.trim()) {
-        results.style.display = 'none';
-        return;
-    }
-    
-    query = query.toLowerCase();
-    const friends = JSON.parse(localStorage.getItem('starFriends')) || [];
-    
-    // Search through all students (you'll need to add the student list)
-    const filtered = allStudents.filter(s => 
-        s.name.toLowerCase().includes(query) ||
-        s.usn.toLowerCase().includes(query) ||
-        s.branch.toLowerCase().includes(query)
-    );
-    
-    if (filtered.length === 0) {
-        results.innerHTML = `<div style="padding:12px; text-align:center; color:var(--text-secondary);">No students found</div>`;
-        results.style.display = 'block';
-        return;
-    }
-    
-    let html = '';
-    filtered.forEach(s => {
-        const isFriend = friends.includes(s.usn);
-        html += `
-            <div class="search-item">
-                <div>
-                    <strong>${s.name}</strong>
-                    <span style="font-size:12px; color:var(--text-secondary); margin-left:8px;">${s.usn}</span>
-                    <span style="font-size:11px; color:var(--text-secondary); margin-left:8px; background:var(--bg-primary); padding:2px 8px; border-radius:10px;">${s.branch}</span>
-                </div>
-                <button class="star-btn ${isFriend ? 'active' : ''}" onclick="toggleStar('${s.usn}')">
-                    ${isFriend ? '⭐' : '☆'}
-                </button>
-            </div>
-        `;
-    });
-    
-    results.innerHTML = html;
-    results.style.display = 'block';
-}
-
-// Star toggle function
-function toggleStar(usn) {
-    let friends = JSON.parse(localStorage.getItem('starFriends')) || [];
-    if (friends.includes(usn)) {
-        friends = friends.filter(f => f !== usn);
-        showToast('☆ Removed from friends');
-    } else {
-        friends.push(usn);
-        showToast('⭐ Added to friends!');
-    }
-    localStorage.setItem('starFriends', JSON.stringify(friends));
-    // Refresh search results if open
-    const query = document.getElementById('searchInput').value;
-    if (query) performSearch(query);
-}
-
-// Add event listener for search input
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('input', function() {
-            performSearch(this.value);
-        });
-    }
-});
 // ============================================================
 //  ABOUT DEVELOPER
 // ============================================================
@@ -1104,6 +1013,102 @@ function exportPDF() {
     }, 500);
 }
 
+// ============================================================
+//  SEARCH SYSTEM - Add at the bottom of app.js
+// ============================================================
+
+function toggleSearch() {
+    const searchBar = document.getElementById('searchBar');
+    const searchInput = document.getElementById('searchInput');
+    
+    if (searchBar.style.display === 'none') {
+        searchBar.style.display = 'block';
+        searchInput.focus();
+    } else {
+        searchBar.style.display = 'none';
+        document.getElementById('searchResults').style.display = 'none';
+    }
+}
+
+function closeSearch() {
+    document.getElementById('searchBar').style.display = 'none';
+    document.getElementById('searchResults').style.display = 'none';
+    document.getElementById('searchInput').value = '';
+}
+
+function performSearch(query) {
+    const results = document.getElementById('searchResults');
+    if (!query.trim()) {
+        results.style.display = 'none';
+        return;
+    }
+    
+    query = query.toLowerCase();
+    const friends = JSON.parse(localStorage.getItem('starFriends')) || [];
+    const allStudents = window.allStudents || [];
+    
+    const filtered = allStudents.filter(s => 
+        s.name.toLowerCase().includes(query) ||
+        s.usn.toLowerCase().includes(query) ||
+        s.branch.toLowerCase().includes(query)
+    );
+    
+    if (filtered.length === 0) {
+        results.innerHTML = `<div style="padding:12px; text-align:center; color:var(--text-secondary);">No students found</div>`;
+        results.style.display = 'block';
+        return;
+    }
+    
+    let html = '';
+    filtered.forEach(s => {
+        const isFriend = friends.includes(s.usn);
+        html += `
+            <div class="search-item">
+                <div>
+                    <strong>${s.name}</strong>
+                    <span style="font-size:12px; color:var(--text-secondary); margin-left:8px;">${s.usn}</span>
+                    <span style="font-size:11px; color:var(--text-secondary); margin-left:8px; background:var(--bg-primary); padding:2px 8px; border-radius:10px;">${s.branch}</span>
+                </div>
+                <button class="star-btn ${isFriend ? 'active' : ''}" onclick="toggleStar('${s.usn}')">
+                    ${isFriend ? '⭐' : '☆'}
+                </button>
+            </div>
+        `;
+    });
+    
+    results.innerHTML = html;
+    results.style.display = 'block';
+}
+
+function toggleStar(usn) {
+    let friends = JSON.parse(localStorage.getItem('starFriends')) || [];
+    if (friends.includes(usn)) {
+        friends = friends.filter(f => f !== usn);
+        showToast('☆ Removed from friends');
+    } else {
+        friends.push(usn);
+        showToast('⭐ Added to friends!');
+    }
+    localStorage.setItem('starFriends', JSON.stringify(friends));
+    const query = document.getElementById('searchInput').value;
+    if (query) performSearch(query);
+}
+
+// Event listener for search input
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            performSearch(this.value);
+        });
+    }
+});
+
+// Expose functions globally
+window.toggleSearch = toggleSearch;
+window.closeSearch = closeSearch;
+window.performSearch = performSearch;
+window.toggleStar = toggleStar;
 // ============================================================
 //  INITIALIZATION
 // ============================================================
