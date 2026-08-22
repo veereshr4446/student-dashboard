@@ -554,14 +554,20 @@ function closeAboutModal() {
 }
 
 // ============================================================
-//  TIMETABLE GALLERY
+//  TIMETABLE GALLERY - ALL 10 BRANCHES
 // ============================================================
 
 const timetables = {
     'cse_a': 'images/cse_a_timetable.jpg',
     'cse_b': 'images/cse_b_timetable.jpg',
+    'cs_ds': 'images/cs_ds_timetable.jpg',
+    'cs_cb': 'images/cs_cb_timetable.jpg',
+    'cs_aiml': 'images/cs_aiml_timetable.jpg',
+    'ise': 'images/ise_timetable.jpg',
     'ece': 'images/ece_timetable.jpg',
-    'mech': 'images/mech_timetable.jpg'
+    'eee': 'images/eee_timetable.jpg',
+    'ce': 'images/ce_timetable.jpg',
+    'me': 'images/me_timetable.jpg'
 };
 
 function showTimetable(branch, btn) {
@@ -692,6 +698,7 @@ function init() {
 
     console.log('🚀 Student Dashboard v11.0 - Optimized! 😆🔥');
     console.log('📊 No lag, smooth performance!');
+    console.log('📅 All 10 branches in timetable gallery!');
 }
 
 init();
