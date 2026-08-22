@@ -1361,100 +1361,81 @@ body::before {
     flex-shrink: 0;
     margin-left: auto;
 }
-
-/* ===== MOBILE HEADER FIX ===== */
+/* ============================
+   RESPONSIVE - MOBILE FIRST
+============================ */
 @media (max-width: 600px) {
+    body {
+        padding: 8px;
+    }
+    
+    .container {
+        padding: 0 4px;
+    }
+
+    /* ===== HEADER - COMPACT ONE-ROW ===== */
     .header {
-        padding: 8px 12px;
+        padding: 6px 10px;
         flex-wrap: nowrap;
         gap: 4px;
+        border-radius: 12px;
     }
     
     .header-left {
         flex: 1;
         min-width: 0;
-        gap: 6px;
+        gap: 4px;
     }
     
-    .header-right {
-        flex-shrink: 0;
-        gap: 4px;
-        margin-left: auto;
+    .hamburger {
+        padding: 4px 2px !important;
+    }
+    
+    .hamburger span {
+        width: 16px !important;
+        height: 2px !important;
     }
     
     .logo .student-name {
-        font-size: 13px !important;
+        font-size: 12px !important;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 120px;
+        max-width: 100px;
     }
     
     .logo .subtitle {
         display: none !important;
     }
     
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-shrink: 0;
+    }
+    
     .header-right .date {
-        font-size: 9px !important;
-        display: none;
+        display: none !important;
     }
     
     .badge-streak {
-        font-size: 8px !important;
-        padding: 2px 8px !important;
+        font-size: 7px !important;
+        padding: 2px 6px !important;
+        border-radius: 12px;
         white-space: nowrap;
     }
     
     .badge {
-        font-size: 8px !important;
-        padding: 2px 8px !important;
+        font-size: 7px !important;
+        padding: 2px 6px !important;
+        border-radius: 12px;
         white-space: nowrap;
     }
     
     .theme-toggle {
-        font-size: 14px !important;
-        padding: 4px !important;
-    }
-    
-    .hamburger {
-        padding: 4px !important;
-    }
-    
-    .hamburger span {
-        width: 18px !important;
-        height: 2px !important;
-    }
-}
-    .header-left {
-        justify-content: space-between;
-        width: 100%;
-    }
-    
-    .logo .student-name {
-        font-size: 16px;
-    }
-    
-    .logo .subtitle {
-        font-size: 10px;
-    }
-
-    .header-right .date {
-        font-size: 10px;
-    }
-    
-    .badge-streak, .badge {
-        font-size: 9px;
-        padding: 2px 10px;
-    }
-    
-    .theme-toggle {
-        font-size: 15px;
-        padding: 4px;
-    }
-
-    .hamburger span {
-        width: 20px;
-        height: 2px;
+        font-size: 13px !important;
+        padding: 2px 4px !important;
     }
 
     /* ===== STATS CARDS ===== */
@@ -1921,53 +1902,4 @@ body::before {
     .faculty-card div[style*="font-size:20px"] {
         font-size: 16px !important;
     }
-}
-/* ============================
-   EXTRA SMALL (Under 400px)
-============================ */
-@media (max-width: 400px) {
-    .stats-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 6px;
-    }
-    
-    .stat-card {
-        padding: 8px 10px;
-        gap: 8px;
-    }
-    
-    .stat-card .icon {
-        width: 30px;
-        height: 30px;
-        font-size: 14px;
-    }
-    
-    .stat-card .info .number {
-        font-size: 15px;
-    }
-    
-    .stat-card .info .label {
-        font-size: 9px;
-    }
-    
-    .logo .student-name {
-        font-size: 14px;
-    }
-    
-    .logo .subtitle {
-        font-size: 9px;
-    }
-    
-    .header-right .date {
-        font-size: 9px;
-    }
-    
-    .badge-streak, .badge {
-        font-size: 8px;
-        padding: 1px 8px;
-    }
-    
-    #facultyPageContent > div {
-        grid-template-columns: 1fr !important;
-    }
-}
+}}
