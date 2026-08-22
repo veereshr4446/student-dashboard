@@ -1374,6 +1374,7 @@ body::before {
     }
 
     /* ===== HEADER - COMPACT ONE-ROW ===== */
+    /* ===== HEADER - COMPACT ONE-ROW ===== */
     .header {
         padding: 6px 10px;
         flex-wrap: nowrap;
@@ -1397,15 +1398,22 @@ body::before {
     }
     
     .logo .student-name {
-        font-size: 13px !important;
+        font-size: 12px !important;
         white-space: nowrap;
-        overflow: visible !important;  /* CHANGE THIS */
-        text-overflow: clip !important;  /* CHANGE THIS */
-        max-width: 140px !important;  /* REMOVE THE LIMIT */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100px;
     }
     
     .logo .subtitle {
-        display: none !important;
+        display: block !important;  /* ← SHOW SUBTITLE */
+        font-size: 7px !important;   /* ← Smaller font */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100px;
+        margin-top: 0 !important;
+        line-height: 1.2;
     }
     
     .header-right {
