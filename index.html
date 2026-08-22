@@ -4,14 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Dashboard - RYMEC</title>
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    
+
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -123,9 +123,8 @@
         ============================ -->
         <div id="dashboardPage">
 
-            <!-- STATS -->
+            <!-- STATS CARDS -->
             <section class="stats-grid" id="statsGrid">
-                <!-- 🔥 Streak - FIRST -->
                 <div class="stat-card" onclick="showToast('🔥 Your streak: ' + (localStorage.getItem('streak') || 0) + ' days!')">
                     <div class="icon" style="color:#f59e0b; background:rgba(245,158,11,0.1);"><i class="fas fa-fire"></i></div>
                     <div class="info">
@@ -161,11 +160,10 @@
                         <div class="label">Below 85%</div>
                     </div>
                 </div>
-                <!-- 📅 College Events -->
                 <div class="stat-card" onclick="showCollegeEvents()">
                     <div class="icon" style="color:#8b5cf6; background:rgba(139,92,246,0.1);"><i class="fas fa-calendar-alt"></i></div>
                     <div class="info">
-                        <div class="number" id="collegeEvents">1</div>
+                        <div class="number">📅</div>
                         <div class="label">College Events</div>
                     </div>
                 </div>
@@ -173,71 +171,71 @@
 
             <!-- DASHBOARD GRID -->
             <div class="dashboard-grid">
-        <!-- LEFT COLUMN -->
-        <div>
 
-            <!-- ⭐ ATTENDANCE & CIE - MOVED TO TOP -->
-            <div class="card" id="subjectsSection">
-                <div class="card-header">
-                    <h3><i class="fas fa-calendar-check" style="color:var(--accent);"></i> Attendance & CIE</h3>
-                    <span class="see-all" id="lastUpdated">Last updated: 22 Aug 2026</span>
-                </div>
-                <div id="subjectList">
-                    <!-- Subjects injected by JS -->
-                </div>
-            </div>
+                <!-- LEFT COLUMN -->
+                <div>
 
-            <!-- 🔥 Attendance Warning -->
-            <div class="card" id="warningSection">
-                <div class="card-header">
-                    <h3><i class="fas fa-exclamation-triangle" style="color:#f59e0b;"></i> Attendance Warning</h3>
-                    <span class="see-all">Need attention</span>
-                </div>
-                <div id="warningList">
-                    <!-- Injected by JS -->
-                </div>
-            </div>
-
-            <!-- 🏆 Subject Ranking -->
-            <div class="card" id="rankingSection">
-                <div class="card-header">
-                    <h3><i class="fas fa-trophy" style="color:#f59e0b;"></i> Subject Ranking</h3>
-                    <span class="see-all">Best to worst</span>
-                </div>
-                <div id="rankingList">
-                    <!-- Injected by JS -->
-                </div>
-            </div>
-
-            <!-- Charts -->
-            <div class="card">
-                <div class="card-header">
-                    <h3><i class="fas fa-chart-bar" style="color:var(--accent);"></i> Performance Overview</h3>
-                    <span class="see-all">Attendance & CIE Trends</span>
-                </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-                    <div>
-                        <div style="font-size:12px; color:var(--text-secondary); margin-bottom:2px;">Attendance Trend</div>
-                        <div class="chart-wrapper">
-                            <canvas id="attendanceChart"></canvas>
+                    <!-- ⭐ ATTENDANCE & CIE - TOP -->
+                    <div class="card" id="subjectsSection">
+                        <div class="card-header">
+                            <h3><i class="fas fa-calendar-check" style="color:var(--accent);"></i> Attendance & CIE</h3>
+                            <span class="see-all" id="lastUpdated">Last updated: 22 Aug 2026</span>
+                        </div>
+                        <div id="subjectList">
+                            <!-- Injected by JS -->
                         </div>
                     </div>
-                    <div>
-                        <div style="font-size:12px; color:var(--text-secondary); margin-bottom:2px;">CIE Performance</div>
-                        <div class="chart-wrapper">
-                            <canvas id="cieChart"></canvas>
+
+                    <!-- 🔥 Attendance Warning -->
+                    <div class="card" id="warningSection">
+                        <div class="card-header">
+                            <h3><i class="fas fa-exclamation-triangle" style="color:#f59e0b;"></i> Attendance Warning</h3>
+                            <span class="see-all">Need attention</span>
+                        </div>
+                        <div id="warningList">
+                            <!-- Injected by JS -->
                         </div>
                     </div>
-                </div>
-            </div>
 
-        </div>
-                
+                    <!-- 🏆 Subject Ranking -->
+                    <div class="card" id="rankingSection">
+                        <div class="card-header">
+                            <h3><i class="fas fa-trophy" style="color:#f59e0b;"></i> Subject Ranking</h3>
+                            <span class="see-all">Best to worst</span>
+                        </div>
+                        <div id="rankingList">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- 📊 Performance Overview (Charts) -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-bar" style="color:var(--accent);"></i> Performance Overview</h3>
+                            <span class="see-all">Attendance & CIE Trends</span>
+                        </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+                            <div>
+                                <div style="font-size:12px; color:var(--text-secondary); margin-bottom:2px;">Attendance Trend</div>
+                                <div class="chart-wrapper">
+                                    <canvas id="attendanceChart"></canvas>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="font-size:12px; color:var(--text-secondary); margin-bottom:2px;">CIE Performance</div>
+                                <div class="chart-wrapper">
+                                    <canvas id="cieChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
 
                 <!-- RIGHT COLUMN -->
                 <div>
 
-                    <!-- Quick Stats -->
+                    <!-- 📈 Quick Stats -->
                     <div class="card">
                         <div class="card-header">
                             <h3>📈 Quick Stats</h3>
@@ -280,7 +278,7 @@
                         </div>
                     </div>
 
-                    <!-- Faculty Ratings (Home Section) -->
+                    <!-- ⭐ Faculty Ratings (Home Preview) -->
                     <div class="card" id="facultySection">
                         <div class="card-header">
                             <h3>⭐ Faculty Ratings</h3>
@@ -291,7 +289,7 @@
                         </div>
                     </div>
 
-                    <!-- Timetable Gallery -->
+                    <!-- 📅 Semester Timetables -->
                     <div class="card" id="timetableSection">
                         <div class="card-header">
                             <h3>📅 Semester Timetables</h3>
@@ -318,7 +316,7 @@
                         </div>
                     </div>
 
-                    <!-- Important Dates -->
+                    <!-- 📌 Important Dates -->
                     <div class="card" id="datesSection" style="background: linear-gradient(135deg, var(--accent), #6c63ff); color: #fff; border: none;">
                         <h3 style="font-weight:700; margin-bottom:8px;">📌 Important Dates</h3>
                         <div style="display:flex; flex-direction:column; gap:4px; font-size:14px;">
@@ -330,7 +328,8 @@
                         </div>
                         <p style="font-size:12px; opacity:0.8; margin-top:10px;">🚀 85% attendance needed for eligibility</p>
                     </div>
-                    <!-- About Developer - Home Page Bottom -->
+
+                    <!-- 👨‍💻 About Developer (Home Page Bottom) -->
                     <div class="card" id="aboutDeveloperHome" style="cursor:pointer; border: 2px solid var(--accent); background: var(--accent-light);" onclick="showAboutDeveloper()">
                         <div class="card-header">
                             <h3><i class="fas fa-code" style="color:var(--accent);"></i> About Developer</h3>
@@ -347,7 +346,11 @@
                     </div>
 
                 </div>
+                <!-- END RIGHT COLUMN -->
+
             </div>
+            <!-- END DASHBOARD GRID -->
+
         </div>
         <!-- END DASHBOARD PAGE -->
 
@@ -378,7 +381,7 @@
 
                 <div style="display:flex; flex-direction:column; gap:16px;">
 
-                    <!-- 🌓 Theme -->
+                    <!-- Theme -->
                     <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border-color);">
                         <div>
                             <strong>🌓 Dark Theme</strong>
@@ -387,7 +390,7 @@
                         <button class="btn btn-primary btn-sm" onclick="toggleTheme(); showToast('🌓 Theme toggled!');">Toggle</button>
                     </div>
 
-                    <!-- 🎯 Default Attendance Goal -->
+                    <!-- Default Goal -->
                     <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border-color);">
                         <div>
                             <strong>🎯 Default Goal</strong>
@@ -400,7 +403,7 @@
                         </div>
                     </div>
 
-                    <!-- 🔔 Notifications -->
+                    <!-- Notifications -->
                     <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border-color);">
                         <div>
                             <strong>🔔 Notifications</strong>
@@ -409,7 +412,7 @@
                         <button class="btn btn-primary btn-sm" id="notifToggleBtn" onclick="toggleNotifications()">Enable</button>
                     </div>
 
-                    <!-- 📊 Export Data -->
+                    <!-- Export Data -->
                     <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border-color);">
                         <div>
                             <strong>📊 Export Data</strong>
@@ -418,7 +421,7 @@
                         <button class="btn btn-primary btn-sm" onclick="exportPDF()"><i class="fas fa-download"></i> Export</button>
                     </div>
 
-                    <!-- 🔄 Refresh Data -->
+                    <!-- Refresh Data -->
                     <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border-color);">
                         <div>
                             <strong>🔄 Refresh Data</strong>
@@ -427,7 +430,7 @@
                         <button class="btn btn-primary btn-sm" onclick="refreshData()"><i class="fas fa-sync"></i> Refresh</button>
                     </div>
 
-                    <!-- ℹ️ About Developer (Inside Settings) -->
+                    <!-- About Developer (Inside Settings) -->
                     <div style="padding:10px 0; border-bottom:1px solid var(--border-color);">
                         <div style="display:flex; align-items:center; gap:14px; cursor:pointer;" onclick="showAboutDeveloper()">
                             <div style="width:50px; height:50px; border-radius:50%; background:linear-gradient(135deg, var(--accent), #6c63ff); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:20px; flex-shrink:0;">V</div>
