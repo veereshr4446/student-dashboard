@@ -186,7 +186,6 @@ function openFacultyDetail(facultyName) {
     document.getElementById('modalFacultyDept').textContent = faculty.dept;
     document.getElementById('modalFacultyPhoto').textContent = faculty.photo;
 
-    // Clear and reset stars
     const stars = document.querySelectorAll('#starContainer2 .star');
     stars.forEach(s => {
         const val = parseInt(s.dataset.value);
@@ -216,10 +215,8 @@ function submitFacultyRating() {
     ratings[currentFacultyName] = facultyRatingStar;
     localStorage.setItem('facultyRatings', JSON.stringify(ratings));
 
-    // Close modal FIRST
     document.getElementById('facultyDetailModal').classList.remove('active');
 
-    // Then update UI
     setTimeout(() => {
         renderFacultyPage();
         renderFacultySummary();
@@ -242,7 +239,6 @@ function openRatingModal(facultyName) {
 
     document.getElementById('modalFacultyName').textContent = facultyName;
 
-    // Clear and reset stars
     const stars = document.querySelectorAll('#starContainer .star');
     stars.forEach(s => {
         const val = parseInt(s.dataset.value);
@@ -272,10 +268,8 @@ function submitRating() {
     ratings[currentFaculty] = homeRatingStar;
     localStorage.setItem('facultyRatings', JSON.stringify(ratings));
 
-    // Close modal FIRST
     document.getElementById('ratingModal').classList.remove('active');
 
-    // Then update UI
     setTimeout(() => {
         renderFacultySummary();
         renderQuickStats();
@@ -295,7 +289,6 @@ document.addEventListener('click', function(e) {
         const value = parseInt(e.target.dataset.value);
         const stars = container.querySelectorAll('.star');
         
-        // Update stars visually with ⭐ and ☆
         stars.forEach(s => {
             const val = parseInt(s.dataset.value);
             if (val <= value) {
@@ -307,7 +300,6 @@ document.addEventListener('click', function(e) {
             }
         });
 
-        // Update the correct variable based on which modal
         if (container.id === 'starContainer' || container.closest('#ratingModal')) {
             homeRatingStar = value;
         } else if (container.id === 'starContainer2' || container.closest('#facultyDetailModal')) {
@@ -530,10 +522,8 @@ function renderDashboard() {
     renderQuickStats();
     renderAllFeatures();
 
-    // Update stats numbers
     updateStatsNumbers();
 
-    // Initialize charts
     setTimeout(initCharts, 400);
 }
 
@@ -542,7 +532,7 @@ function updateStatsNumbers() {
     animateNumber('overallAttendance', getOverallAttendance(), 1);
     animateNumber('cieAverage', getOverallCIE(), 1);
     animateNumber('below85', getBelow85().length);
-
+    
     // Update streak card
     const streak = parseInt(localStorage.getItem('streak')) || 0;
     const streakCard = document.getElementById('streakCardCount');
@@ -666,7 +656,6 @@ function setDate() {
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Close modals on overlay click
     document.getElementById('detailModal').addEventListener('click', function(e) {
         if (e.target === this) closeModal();
     });
@@ -683,7 +672,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target === this) closeFacultyDetail();
     });
 
-    // Escape key
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             closeSidebar();
@@ -728,29 +716,149 @@ function refreshData() {
 }
 
 // ============================================================
+//  COLLEGE EVENTS
+// ============================================================
+
+function showCollegeEvents() {
+    openModal(
+        '📅 College Events',
+        'Stay tuned for upcoming events!',
+        `
+        <div style="text-align:center; padding:30px 20px;">
+            <div style="font-size:64px; margin-bottom:16px;">📅</div>
+            <h3 style="font-size:20px; font-weight:700; color:var(--text-primary); margin-bottom:8px;">
+                🚀 Coming Soon!
+            </h3>
+            <p style="color:var(--text-secondary); font-size:14px; max-width:300px; margin:0 auto;">
+                We're working on bringing you all the latest college events, workshops, and important dates in one place!
+            </p>
+            <div style="margin-top:20px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                <span style="background:var(--bg-primary); padding:6px 16px; border-radius:20px; font-size:12px; color:var(--text-secondary);">🎯 Workshops</span>
+                <span style="background:var(--bg-primary); padding:6px 16px; border-radius:20px; font-size:12px; color:var(--text-secondary);">🏆 Competitions</span>
+                <span style="background:var(--bg-primary); padding:6px 16px; border-radius:20px; font-size:12px; color:var(--text-secondary);">🎓 Guest Lectures</span>
+                <span style="background:var(--bg-primary); padding:6px 16px; border-radius:20px; font-size:12px; color:var(--text-secondary);">🎉 Festivals</span>
+            </div>
+            <div style="margin-top:16px; padding:12px; background:var(--accent-light); border-radius:10px; border:1px dashed var(--accent);">
+                <p style="font-size:13px; color:var(--text-secondary);">
+                    💡 <strong>Pro Tip:</strong> Check back here for upcoming events!
+                </p>
+            </div>
+        </div>
+        `
+    );
+}
+
+// ============================================================
+//  SEARCH SYSTEM
+// ============================================================
+
+function toggleSearch() {
+    const searchBar = document.getElementById('searchBar');
+    const searchInput = document.getElementById('searchInput');
+    
+    if (searchBar.style.display === 'none') {
+        searchBar.style.display = 'block';
+        searchInput.focus();
+    } else {
+        searchBar.style.display = 'none';
+        document.getElementById('searchResults').style.display = 'none';
+    }
+}
+
+function closeSearch() {
+    document.getElementById('searchBar').style.display = 'none';
+    document.getElementById('searchResults').style.display = 'none';
+    document.getElementById('searchInput').value = '';
+}
+
+function performSearch(query) {
+    const results = document.getElementById('searchResults');
+    if (!query.trim()) {
+        results.style.display = 'none';
+        return;
+    }
+    
+    query = query.toLowerCase();
+    const friends = JSON.parse(localStorage.getItem('starFriends')) || [];
+    const allStudentsList = window.allStudents || [];
+    
+    const filtered = allStudentsList.filter(s => 
+        s.name.toLowerCase().includes(query) ||
+        s.usn.toLowerCase().includes(query) ||
+        s.branch.toLowerCase().includes(query)
+    );
+    
+    if (filtered.length === 0) {
+        results.innerHTML = `<div style="padding:12px; text-align:center; color:var(--text-secondary);">No students found</div>`;
+        results.style.display = 'block';
+        return;
+    }
+    
+    let html = '';
+    filtered.forEach(s => {
+        const isFriend = friends.includes(s.usn);
+        html += `
+            <div class="search-item">
+                <div>
+                    <strong>${s.name}</strong>
+                    <span style="font-size:12px; color:var(--text-secondary); margin-left:8px;">${s.usn}</span>
+                    <span style="font-size:11px; color:var(--text-secondary); margin-left:8px; background:var(--bg-primary); padding:2px 8px; border-radius:10px;">${s.branch}</span>
+                </div>
+                <button class="star-btn ${isFriend ? 'active' : ''}" onclick="toggleStar('${s.usn}')">
+                    ${isFriend ? '⭐' : '☆'}
+                </button>
+            </div>
+        `;
+    });
+    
+    results.innerHTML = html;
+    results.style.display = 'block';
+}
+
+function toggleStar(usn) {
+    let friends = JSON.parse(localStorage.getItem('starFriends')) || [];
+    if (friends.includes(usn)) {
+        friends = friends.filter(f => f !== usn);
+        showToast('☆ Removed from friends');
+    } else {
+        friends.push(usn);
+        showToast('⭐ Added to friends!');
+    }
+    localStorage.setItem('starFriends', JSON.stringify(friends));
+    const query = document.getElementById('searchInput').value;
+    if (query) performSearch(query);
+}
+
+// Search input event listener
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            performSearch(this.value);
+        });
+    }
+});
+
+// ============================================================
 //  EXPORT PDF FUNCTION
 // ============================================================
 
 function exportPDF() {
     showToast('📄 Generating report...');
 
-    // Get student info
     const name = localStorage.getItem('userName') || 'VIRESH RANJANAGI';
     const usn = localStorage.getItem('userUSN') || '3VC25CS107';
     const branch = 'Computer Science & Engineering';
     const semester = 'II (2nd Semester)';
     const date = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
 
-    // Calculate stats
     const overallAtt = getOverallAttendance().toFixed(1);
     const avgCIE = getOverallCIE().toFixed(1);
     const below85 = getBelow85().length;
     const streak = localStorage.getItem('streak') || 0;
 
-    // Get faculty ratings
     const ratings = JSON.parse(localStorage.getItem('facultyRatings')) || {};
 
-    // Build HTML content for PDF
     let html = `
     <!DOCTYPE html>
     <html>
@@ -864,13 +972,10 @@ function exportPDF() {
         </style>
     </head>
     <body>
-
-        <!-- HEADER -->
         <div class="header">
             <div class="title">📊 <span>Academic</span> Report</div>
         </div>
 
-        <!-- STUDENT INFO -->
         <div class="section">
             <div class="section-title">👤 Student Information</div>
             <div class="info-grid">
@@ -883,103 +988,58 @@ function exportPDF() {
             </div>
         </div>
 
-        <!-- PERFORMANCE SUMMARY -->
         <div class="section">
             <div class="section-title">📊 Performance Summary</div>
             <div class="stats-grid">
-                <div class="stat-box accent">
-                    <div class="number">${overallAtt}%</div>
-                    <div class="label">Overall Attendance</div>
-                </div>
-                <div class="stat-box accent">
-                    <div class="number">${avgCIE}/25</div>
-                    <div class="label">Avg CIE Marks</div>
-                </div>
-                <div class="stat-box ${below85 > 0 ? 'danger' : 'good'}">
-                    <div class="number">${below85}</div>
-                    <div class="label">Subjects Below 85%</div>
-                </div>
-                <div class="stat-box good">
-                    <div class="number">${subjectsData.filter(s => s.attendance >= 85).length}</div>
-                    <div class="label">Subjects Above 85%</div>
-                </div>
+                <div class="stat-box accent"><div class="number">${overallAtt}%</div><div class="label">Overall Attendance</div></div>
+                <div class="stat-box accent"><div class="number">${avgCIE}/25</div><div class="label">Avg CIE Marks</div></div>
+                <div class="stat-box ${below85 > 0 ? 'danger' : 'good'}"><div class="number">${below85}</div><div class="label">Subjects Below 85%</div></div>
+                <div class="stat-box good"><div class="number">${subjectsData.filter(s => s.attendance >= 85).length}</div><div class="label">Subjects Above 85%</div></div>
             </div>
         </div>
 
-        <!-- SUBJECT-WISE REPORT -->
         <div class="section">
             <div class="section-title">📚 Subject-Wise Report</div>
             <table>
-                <thead>
-                    <tr><th>#</th><th>Subject Code</th><th>Subject Name</th><th>Attendance</th><th>CIE (Best 2)</th></tr>
-                </thead>
+                <thead><tr><th>#</th><th>Subject Code</th><th>Subject Name</th><th>Attendance</th><th>CIE (Best 2)</th></tr></thead>
                 <tbody>
                     ${subjectsData.map((sub, i) => {
                         const status = getStatus(sub.attendance);
                         const attClass = status === 'good' ? 'att-good' : status === 'warning' ? 'att-warning' : 'att-danger';
                         const bestTwo = getBestTwo(sub);
-                        return `
-                            <tr>
-                                <td>${i + 1}</td>
-                                <td>${sub.code}</td>
-                                <td>${sub.name}</td>
-                                <td class="${attClass}">${sub.attendance}%</td>
-                                <td>${bestTwo}/50</td>
-                            </tr>
-                        `;
+                        return `<tr><td>${i + 1}</td><td>${sub.code}</td><td>${sub.name}</td><td class="${attClass}">${sub.attendance}%</td><td>${bestTwo}/50</td></tr>`;
                     }).join('')}
                 </tbody>
             </table>
         </div>
 
-        <!-- CIE MARKS BREAKDOWN -->
         <div class="section">
             <div class="section-title">📝 CIE Marks Breakdown</div>
             <table>
-                <thead>
-                    <tr><th>Subject</th><th>CIE-1</th><th>CIE-2</th><th>CIE-3</th><th>Best 2</th></tr>
-                </thead>
+                <thead><tr><th>Subject</th><th>CIE-1</th><th>CIE-2</th><th>CIE-3</th><th>Best 2</th></tr></thead>
                 <tbody>
                     ${subjectsData.map(sub => {
                         const bestTwo = getBestTwo(sub);
-                        return `
-                            <tr>
-                                <td>${sub.code}</td>
-                                <td>${sub.cie[0]}/25</td>
-                                <td>${sub.cie[1]}/25</td>
-                                <td>${sub.cie[2]}/25</td>
-                                <td><strong>${bestTwo}/50</strong></td>
-                            </tr>
-                        `;
+                        return `<tr><td>${sub.code}</td><td>${sub.cie[0]}/25</td><td>${sub.cie[1]}/25</td><td>${sub.cie[2]}/25</td><td><strong>${bestTwo}/50</strong></td></tr>`;
                     }).join('')}
                 </tbody>
             </table>
         </div>
 
-        <!-- FACULTY RATINGS -->
         <div class="section">
             <div class="section-title">⭐ Faculty Ratings</div>
             <table>
-                <thead>
-                    <tr><th>Faculty Name</th><th>Subject</th><th>Rating</th></tr>
-                </thead>
+                <thead><tr><th>Faculty Name</th><th>Subject</th><th>Rating</th></tr></thead>
                 <tbody>
                     ${facultyData.map(f => {
                         const rating = ratings[f.name] || 0;
                         const stars = '⭐'.repeat(rating) + '☆'.repeat(5 - rating);
-                        return `
-                            <tr>
-                                <td>${f.name}</td>
-                                <td>${f.subject}</td>
-                                <td>${stars}</td>
-                            </tr>
-                        `;
+                        return `<tr><td>${f.name}</td><td>${f.subject}</td><td>${stars}</td></tr>`;
                     }).join('')}
                 </tbody>
             </table>
         </div>
 
-        <!-- IMPORTANT DATES -->
         <div class="section">
             <div class="section-title">📌 Important Dates</div>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; background:#f5f7fa; padding:16px 20px; border-radius:12px; font-size:14px;">
@@ -992,17 +1052,14 @@ function exportPDF() {
             </div>
         </div>
 
-        <!-- FOOTER -->
         <div class="footer">
             <p>✨ Generated by <span class="brand">Student Dashboard</span></p>
             <p style="margin-top:4px;">© 2026 · Built with ❤️ by Viresh</p>
         </div>
-
     </body>
     </html>
     `;
 
-    // Open in new window for printing/saving as PDF
     const win = window.open('', '_blank');
     win.document.write(html);
     win.document.close();
@@ -1014,102 +1071,6 @@ function exportPDF() {
 }
 
 // ============================================================
-//  SEARCH SYSTEM - Add at the bottom of app.js
-// ============================================================
-
-function toggleSearch() {
-    const searchBar = document.getElementById('searchBar');
-    const searchInput = document.getElementById('searchInput');
-    
-    if (searchBar.style.display === 'none') {
-        searchBar.style.display = 'block';
-        searchInput.focus();
-    } else {
-        searchBar.style.display = 'none';
-        document.getElementById('searchResults').style.display = 'none';
-    }
-}
-
-function closeSearch() {
-    document.getElementById('searchBar').style.display = 'none';
-    document.getElementById('searchResults').style.display = 'none';
-    document.getElementById('searchInput').value = '';
-}
-
-function performSearch(query) {
-    const results = document.getElementById('searchResults');
-    if (!query.trim()) {
-        results.style.display = 'none';
-        return;
-    }
-    
-    query = query.toLowerCase();
-    const friends = JSON.parse(localStorage.getItem('starFriends')) || [];
-    const allStudents = window.allStudents || [];
-    
-    const filtered = allStudents.filter(s => 
-        s.name.toLowerCase().includes(query) ||
-        s.usn.toLowerCase().includes(query) ||
-        s.branch.toLowerCase().includes(query)
-    );
-    
-    if (filtered.length === 0) {
-        results.innerHTML = `<div style="padding:12px; text-align:center; color:var(--text-secondary);">No students found</div>`;
-        results.style.display = 'block';
-        return;
-    }
-    
-    let html = '';
-    filtered.forEach(s => {
-        const isFriend = friends.includes(s.usn);
-        html += `
-            <div class="search-item">
-                <div>
-                    <strong>${s.name}</strong>
-                    <span style="font-size:12px; color:var(--text-secondary); margin-left:8px;">${s.usn}</span>
-                    <span style="font-size:11px; color:var(--text-secondary); margin-left:8px; background:var(--bg-primary); padding:2px 8px; border-radius:10px;">${s.branch}</span>
-                </div>
-                <button class="star-btn ${isFriend ? 'active' : ''}" onclick="toggleStar('${s.usn}')">
-                    ${isFriend ? '⭐' : '☆'}
-                </button>
-            </div>
-        `;
-    });
-    
-    results.innerHTML = html;
-    results.style.display = 'block';
-}
-
-function toggleStar(usn) {
-    let friends = JSON.parse(localStorage.getItem('starFriends')) || [];
-    if (friends.includes(usn)) {
-        friends = friends.filter(f => f !== usn);
-        showToast('☆ Removed from friends');
-    } else {
-        friends.push(usn);
-        showToast('⭐ Added to friends!');
-    }
-    localStorage.setItem('starFriends', JSON.stringify(friends));
-    const query = document.getElementById('searchInput').value;
-    if (query) performSearch(query);
-}
-
-// Event listener for search input
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('input', function() {
-            performSearch(this.value);
-        });
-    }
-});
-
-// Expose functions globally
-window.toggleSearch = toggleSearch;
-window.closeSearch = closeSearch;
-window.performSearch = performSearch;
-window.toggleStar = toggleStar;
-// ============================================================
 //  INITIALIZATION
 // ============================================================
 
@@ -1119,12 +1080,10 @@ function init() {
     const isLoggedIn = checkLoginStatus();
 
     if (isLoggedIn) {
-        // Start auto-refresh for ksign
         if (typeof startAutoRefresh === 'function') {
             startAutoRefresh();
         }
         
-        // Check ksign on load
         if (typeof checkKsignOnLoad === 'function') {
             checkKsignOnLoad().then(ksign => {
                 if (ksign) {
@@ -1147,39 +1106,7 @@ function init() {
     console.log('📊 Settings page with export, notifications, goals');
     console.log('💫 Auto-refresh system ready');
 }
-// ============================================================
-//  COLLEGE EVENTS
-// ============================================================
 
-function showCollegeEvents() {
-    openModal(
-        '📅 College Events',
-        'Stay tuned for upcoming events!',
-        `
-        <div style="text-align:center; padding:30px 20px;">
-            <div style="font-size:64px; margin-bottom:16px;">📅</div>
-            <h3 style="font-size:20px; font-weight:700; color:var(--text-primary); margin-bottom:8px;">
-                🚀 Coming Soon!
-            </h3>
-            <p style="color:var(--text-secondary); font-size:14px; max-width:300px; margin:0 auto;">
-                We're working on bringing you all the latest college events, workshops, and important dates in one place!
-            </p>
-            <div style="margin-top:20px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
-                <span style="background:var(--bg-primary); padding:6px 16px; border-radius:20px; font-size:12px; color:var(--text-secondary);">🎯 Workshops</span>
-                <span style="background:var(--bg-primary); padding:6px 16px; border-radius:20px; font-size:12px; color:var(--text-secondary);">🏆 Competitions</span>
-                <span style="background:var(--bg-primary); padding:6px 16px; border-radius:20px; font-size:12px; color:var(--text-secondary);">🎓 Guest Lectures</span>
-                <span style="background:var(--bg-primary); padding:6px 16px; border-radius:20px; font-size:12px; color:var(--text-secondary);">🎉 Festivals</span>
-            </div>
-            <div style="margin-top:16px; padding:12px; background:var(--accent-light); border-radius:10px; border:1px dashed var(--accent);">
-                <p style="font-size:13px; color:var(--text-secondary);">
-                    💡 <strong>Pro Tip:</strong> Check back here for upcoming events!
-                </p>
-            </div>
-        </div>
-        `
-    );
-}
-// Initialize when page loads
 init();
 
 // ============================================================
@@ -1225,3 +1152,8 @@ window.toggleNotifications = toggleNotifications;
 window.refreshData = refreshData;
 window.exportPDF = exportPDF;
 window.updateNotifButton = updateNotifButton;
+window.showCollegeEvents = showCollegeEvents;
+window.toggleSearch = toggleSearch;
+window.closeSearch = closeSearch;
+window.performSearch = performSearch;
+window.toggleStar = toggleStar;

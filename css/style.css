@@ -51,6 +51,19 @@ body {
     overflow-x: hidden;
 }
 
+body::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 40%, rgba(79, 125, 243, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 70% 60%, rgba(108, 99, 255, 0.02) 0%, transparent 50%);
+    z-index: -1;
+    pointer-events: none;
+}
+
 ::-webkit-scrollbar {
     width: 6px;
 }
@@ -98,6 +111,7 @@ body {
     max-width: 420px;
     width: 90%;
     text-align: center;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .login-box .logo-icon {
@@ -388,6 +402,18 @@ body {
     margin-bottom: 24px;
     border: 1px solid var(--border-color);
     transition: background var(--transition);
+    animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .header-left {
@@ -441,6 +467,11 @@ body {
     gap: 12px;
     flex-wrap: wrap;
 }
+.header-right .date {
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 13px;
+}
 
 .badge {
     background: var(--accent);
@@ -450,7 +481,31 @@ body {
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.3px;
-}/* ============================
+}
+.badge-streak {
+    background: var(--warning-color);
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+.theme-toggle {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    transition: all var(--transition);
+    color: var(--text-primary);
+}
+.theme-toggle:hover {
+    background: var(--hover-bg);
+    transform: rotate(30deg);
+}
+
+/* ============================
    SEARCH BUTTON
 ============================ */
 .search-btn {
@@ -770,9 +825,7 @@ body {
 }
 .fill.danger {
     background: linear-gradient(90deg, var(--danger-color), #f87171);
-}
-
-/* ============================
+}/* ============================
    TIMETABLE GALLERY
 ============================ */
 .timetable-btn {

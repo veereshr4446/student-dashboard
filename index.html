@@ -108,23 +108,11 @@
                 </div>
             </div>
             <div class="header-right">
-            <div class="header-right">
-            <button class="search-btn" onclick="toggleSearch()" aria-label="Search">
-                <i class="fas fa-search"></i>
-            </button>
-            <span class="badge">Pro</span>
-        </div>
-        </div>
-
-        <!-- Search Bar (Hidden by default) -->
-        <div id="searchBar" style="display:none; padding:10px 0; width:100%;">
-            <div style="display:flex; gap:10px; align-items:center; background:var(--bg-card); padding:8px 14px; border-radius:12px; border:2px solid var(--accent);">
-                <i class="fas fa-search" style="color:var(--text-secondary);"></i>
-                <input type="text" id="searchInput" placeholder="Search by name, USN, or branch..." style="flex:1; background:none; border:none; outline:none; color:var(--text-primary); font-size:14px;">
-                <button onclick="closeSearch()" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:18px;">&times;</button>
+                <button class="search-btn" onclick="toggleSearch()" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+                <span class="badge">Pro</span>
             </div>
-            <div id="searchResults" style="margin-top:8px; max-height:300px; overflow-y:auto; background:var(--bg-card); border-radius:12px; border:1px solid var(--border-color); display:none;"></div>
-        </div>
         </header>
 
         <!-- ============================
@@ -132,54 +120,53 @@
         ============================ -->
         <div id="dashboardPage">
 
-        <!-- STATS -->
-        <section class="stats-grid" id="statsGrid">
-            <!-- 🔥 Streak - NOW FIRST -->
-            <div class="stat-card" onclick="showToast('🔥 Your streak: ' + (localStorage.getItem('streak') || 0) + ' days!')">
-                <div class="icon" style="color:#f59e0b; background:rgba(245,158,11,0.1);"><i class="fas fa-fire"></i></div>
-                <div class="info">
-                    <div class="number" id="streakCardCount">15</div>
-                    <div class="label">Day Streak</div>
+            <!-- STATS -->
+            <section class="stats-grid" id="statsGrid">
+                <!-- 🔥 Streak - FIRST -->
+                <div class="stat-card" onclick="showToast('🔥 Your streak: ' + (localStorage.getItem('streak') || 0) + ' days!')">
+                    <div class="icon" style="color:#f59e0b; background:rgba(245,158,11,0.1);"><i class="fas fa-fire"></i></div>
+                    <div class="info">
+                        <div class="number" id="streakCardCount">15</div>
+                        <div class="label">Day Streak</div>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="stat-card" onclick="showAllSubjects()">
-                <div class="icon"><i class="fas fa-user-graduate"></i></div>
-                <div class="info">
-                    <div class="number" id="totalSubjects">8</div>
-                    <div class="label">Total Subjects</div>
+                <div class="stat-card" onclick="showAllSubjects()">
+                    <div class="icon"><i class="fas fa-user-graduate"></i></div>
+                    <div class="info">
+                        <div class="number" id="totalSubjects">8</div>
+                        <div class="label">Total Subjects</div>
+                    </div>
                 </div>
-            </div>
-            <div class="stat-card" onclick="showAttendanceDetails()">
-                <div class="icon"><i class="fas fa-chart-line"></i></div>
-                <div class="info">
-                    <div class="number" id="overallAttendance">78.5%</div>
-                    <div class="label">Overall Attendance</div>
+                <div class="stat-card" onclick="showAttendanceDetails()">
+                    <div class="icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="info">
+                        <div class="number" id="overallAttendance">78.5%</div>
+                        <div class="label">Overall Attendance</div>
+                    </div>
                 </div>
-            </div>
-            <div class="stat-card" onclick="showCIEDetails()">
-                <div class="icon"><i class="fas fa-check-circle"></i></div>
-                <div class="info">
-                    <div class="number" id="cieAverage">22.7</div>
-                    <div class="label">CIE Marks</div>
+                <div class="stat-card" onclick="showCIEDetails()">
+                    <div class="icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="info">
+                        <div class="number" id="cieAverage">22.7</div>
+                        <div class="label">CIE Marks</div>
+                    </div>
                 </div>
-            </div>
-            <div class="stat-card" onclick="showBelow85()">
-                <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
-                <div class="info">
-                    <div class="number" id="below85">3</div>
-                    <div class="label">Below 85%</div>
+                <div class="stat-card" onclick="showBelow85()">
+                    <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="info">
+                        <div class="number" id="below85">3</div>
+                        <div class="label">Below 85%</div>
+                    </div>
                 </div>
-            </div>
-            <!-- 📅 College Events -->
-            <div class="stat-card" onclick="showCollegeEvents()">
-                <div class="icon" style="color:#8b5cf6; background:rgba(139,92,246,0.1);"><i class="fas fa-calendar-alt"></i></div>
-                <div class="info">
-                    <div class="number" id="collegeEvents">1</div>
-                    <div class="label">College Events</div>
+                <!-- 📅 College Events -->
+                <div class="stat-card" onclick="showCollegeEvents()">
+                    <div class="icon" style="color:#8b5cf6; background:rgba(139,92,246,0.1);"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="info">
+                        <div class="number">📅</div>
+                        <div class="label">College Events</div>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
             <!-- DASHBOARD GRID -->
             <div class="dashboard-grid">
@@ -435,7 +422,7 @@
 
                     <!-- Version -->
                     <div style="text-align:center; padding:10px 0; color:var(--text-secondary); font-size:12px;">
-                        ✨ Founder of Xīng Chén (星辰) · Built with ❤️ by Viresh Ranjanagi<br>
+                        ✨ Version 2.0 · Xīng Chén (星辰) · Built with ❤️
                     </div>
 
                 </div>
@@ -445,7 +432,7 @@
         <!-- Footer -->
         <footer style="text-align: center; padding: 20px 0 10px; color: var(--text-secondary); font-size: 13px; border-top: 1px solid var(--border-color); margin-top: 20px;">
             <p>
-                © 2026 Student Dashboard · Built with ❤️ by Viresh R
+                © 2026 Student Dashboard · Built with ❤️ by Viresh
                 <br>
                 <span style="font-size: 12px; opacity: 0.7;">
                     ✨ Founder of <strong style="color: var(--accent);">Xīng Chén (星辰)</strong>

@@ -127,7 +127,6 @@ function getFacultyList() {
 // ============================================================
 
 const allStudents = [
-    // Your batch students
     { usn: '3VC25CS107', name: 'VIRESH RANJANAGI', branch: 'CSE A' },
     { usn: '3VC25CS001', name: 'A LALITHA', branch: 'CSE A' },
     { usn: '3VC25CS002', name: 'A LAVANYA', branch: 'CSE A' },
@@ -182,8 +181,6 @@ const allStudents = [
     { usn: '3VC25CS053', name: 'NAGALINGA', branch: 'CSE A' },
 ];
 
-// Expose allStudents globally
-window.allStudents = allStudents;
 // ============================================================
 //  EXPOSE DATA GLOBALLY
 // ============================================================
@@ -199,6 +196,8 @@ window.getBelow85 = getBelow85;
 window.getOverallCIE = getOverallCIE;
 window.getSubjectRanking = getSubjectRanking;
 window.getFacultyList = getFacultyList;
+window.allStudents = allStudents;
 
 console.log('📊 Data loaded successfully!');
 console.log(`📚 ${subjectsData.length} subjects loaded.`);
+console.log(`👥 ${allStudents.length} students loaded.`);
