@@ -468,6 +468,46 @@ function showBelow85() {
 }
 
 // ============================================================
+//  TIMETABLE GALLERY - ALL 10 BRANCHES
+// ============================================================
+
+const timetables = {
+    'cse_a': 'images/cse_a_timetable.jpg',
+    'cse_b': 'images/cse_b_timetable.jpg',
+    'cs_ds': 'images/cs_ds_timetable.jpg',
+    'cs_cb': 'images/cs_cb_timetable.jpg',
+    'cs_aiml': 'images/cs_aiml_timetable.jpg',
+    'ise': 'images/ise_timetable.jpg',
+    'ece': 'images/ece_timetable.jpg',
+    'eee': 'images/eee_timetable.jpg',
+    'ce': 'images/ce_timetable.jpg',
+    'me': 'images/me_timetable.jpg'
+};
+
+function showTimetable(branch, btn) {
+    document.querySelectorAll('.timetable-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    const container = document.getElementById('timetableContainer');
+    const imgPath = timetables[branch];
+
+    fetch(imgPath)
+        .then(response => {
+            if (!response.ok) throw new Error('Image not found');
+            container.innerHTML = `<img src="${imgPath}" alt="Timetable - ${branch.toUpperCase()}">`;
+        })
+        .catch(() => {
+            container.innerHTML = `
+                <div class="placeholder-text">
+                    <i class="fas fa-image"></i>
+                    <p>No timetable image yet</p>
+                    <p style="font-size:12px; opacity:0.5;">Add <strong>${branch}_timetable.jpg</strong></p>
+                </div>
+            `;
+        });
+}
+
+// ============================================================
 //  RENDER DASHBOARD
 // ============================================================
 
@@ -551,46 +591,6 @@ function showAboutDeveloper() {
 
 function closeAboutModal() {
     document.getElementById('aboutModal').classList.remove('active');
-}
-
-// ============================================================
-//  TIMETABLE GALLERY - ALL 10 BRANCHES
-// ============================================================
-
-const timetables = {
-    'cse_a': 'images/cse_a_timetable.jpg',
-    'cse_b': 'images/cse_b_timetable.jpg',
-    'cs_ds': 'images/cs_ds_timetable.jpg',
-    'cs_cb': 'images/cs_cb_timetable.jpg',
-    'cs_aiml': 'images/cs_aiml_timetable.jpg',
-    'ise': 'images/ise_timetable.jpg',
-    'ece': 'images/ece_timetable.jpg',
-    'eee': 'images/eee_timetable.jpg',
-    'ce': 'images/ce_timetable.jpg',
-    'me': 'images/me_timetable.jpg'
-};
-
-function showTimetable(branch, btn) {
-    document.querySelectorAll('.timetable-btn').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-
-    const container = document.getElementById('timetableContainer');
-    const imgPath = timetables[branch];
-
-    fetch(imgPath)
-        .then(response => {
-            if (!response.ok) throw new Error('Image not found');
-            container.innerHTML = `<img src="${imgPath}" alt="Timetable - ${branch.toUpperCase()}">`;
-        })
-        .catch(() => {
-            container.innerHTML = `
-                <div class="placeholder-text">
-                    <i class="fas fa-image"></i>
-                    <p>No timetable image yet</p>
-                    <p style="font-size:12px; opacity:0.5;">Add <strong>${branch}_timetable.jpg</strong></p>
-                </div>
-            `;
-        });
 }
 
 // ============================================================
@@ -686,6 +686,16 @@ function init() {
     const isLoggedIn = checkLoginStatus();
 
     if (isLoggedIn) {
+        // Start auto-refresh for ksign
+        startAutoRefresh();
+        
+        // Check ksign on load
+        checkKsignOnLoad().then(ksign => {
+            if (ksign) {
+                console.log('✅ Session ready');
+            }
+        });
+        
         renderDashboard();
 
         setTimeout(() => {
@@ -696,11 +706,12 @@ function init() {
 
     setDate();
 
-    console.log('🚀 Student Dashboard v11.0 - Optimized! 😆🔥');
-    console.log('📊 No lag, smooth performance!');
-    console.log('📅 All 10 branches in timetable gallery!');
+    console.log('🚀 Student Dashboard v12.0 - Auto-Refresh! 😆🔥');
+    console.log('⏰ ksign auto-refreshes every 5 minutes');
+    console.log('💫 Students stay logged in forever!');
 }
 
+// Initialize when page loads
 init();
 
 // ============================================================
