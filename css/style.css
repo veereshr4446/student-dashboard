@@ -1315,83 +1315,574 @@ body::before {
 }
 
 /* ============================
-   RESPONSIVE
+   RESPONSIVE - MOBILE FIRST
 ============================ */
 @media (max-width: 600px) {
     body {
-        padding: 12px;
+        padding: 8px;
     }
+    
+    .container {
+        padding: 0 4px;
+    }
+
+    /* ===== HEADER ===== */
     .header {
-        padding: 12px 16px;
+        padding: 10px 12px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
     }
+    
+    .header-left {
+        justify-content: space-between;
+        width: 100%;
+    }
+    
     .logo .student-name {
+        font-size: 16px;
+    }
+    
+    .logo .subtitle {
+        font-size: 10px;
+    }
+    
+    .header-right {
+        justify-content: space-between;
+        width: 100%;
+        gap: 6px;
+    }
+    
+    .header-right .date {
+        font-size: 10px;
+    }
+    
+    .badge-streak, .badge {
+        font-size: 9px;
+        padding: 2px 10px;
+    }
+    
+    .theme-toggle {
+        font-size: 15px;
+        padding: 4px;
+    }
+
+    .hamburger span {
+        width: 20px;
+        height: 2px;
+    }
+
+    /* ===== STATS CARDS ===== */
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    
+    .stat-card {
+        padding: 12px 14px;
+        gap: 10px;
+        border-left-width: 3px;
+    }
+    
+    .stat-card .icon {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+    
+    .stat-card .info .number {
         font-size: 18px;
     }
-    .logo .subtitle {
+    
+    .stat-card .info .label {
         font-size: 11px;
     }
-    .header-right .date {
+
+    /* ===== CARDS ===== */
+    .card {
+        padding: 12px 14px;
+        margin-bottom: 12px;
+        border-radius: 14px;
+    }
+    
+    .card-header h3 {
+        font-size: 15px;
+    }
+    
+    .card-header .see-all {
         font-size: 11px;
     }
-    .stat-card {
-        padding: 16px 18px;
-    }
-    .stat-card .number {
-        font-size: 22px;
-    }
-    .stat-card .icon {
-        width: 44px;
-        height: 44px;
-        font-size: 22px;
-    }
+
+    /* ===== SUBJECT ROWS ===== */
     .subject-row {
-        flex-wrap: wrap;
-        gap: 4px;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px 0;
+        gap: 6px;
     }
+    
+    .subject-info .name {
+        font-size: 13px;
+    }
+    
+    .subject-info .code {
+        font-size: 10px;
+    }
+    
+    .subject-info .faculty {
+        font-size: 11px;
+    }
+    
     .subject-stats {
         min-width: unset;
         width: 100%;
-        align-items: flex-start;
         max-width: 100%;
+        align-items: stretch;
     }
+    
     .subject-stats .top-row {
-        justify-content: flex-start;
+        justify-content: space-between;
+        width: 100%;
     }
+    
+    .subject-stats .attendance {
+        font-size: 15px;
+    }
+    
+    .rating-btn {
+        font-size: 12px;
+        padding: 2px 6px;
+    }
+    
+    .progress-bar {
+        height: 6px;
+    }
+
+    /* ===== TIMETABLE ===== */
+    .timetable-btn {
+        padding: 5px 12px;
+        font-size: 11px;
+        border-radius: 8px;
+    }
+
+    .timetable-container {
+        min-height: 120px;
+        padding: 12px;
+    }
+    
+    .timetable-container img {
+        max-height: 250px;
+    }
+    
+    .timetable-container .placeholder-text {
+        font-size: 12px;
+    }
+    
+    .timetable-container .placeholder-text i {
+        font-size: 28px;
+    }
+
+    /* ===== CHARTS ===== */
+    .chart-wrapper {
+        height: 100px;
+    }
+    
+    .dashboard-grid .card > div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+
+    /* ===== QUICK STATS ===== */
+    #quickStats div {
+        font-size: 13px !important;
+        gap: 4px !important;
+    }
+
+    /* ===== GOAL SETTING ===== */
+    .goal-item .goal-header {
+        font-size: 12px;
+        flex-wrap: wrap;
+    }
+    
+    .goal-item .goal-header .goal-target {
+        font-size: 11px;
+    }
+    
+    .goal-item .btn-sm {
+        padding: 4px 10px;
+        font-size: 10px;
+    }
+
+    /* ===== NOTIFICATIONS ===== */
+    .notification-item {
+        font-size: 12px;
+        padding: 6px 0;
+        gap: 8px;
+    }
+    
+    .notification-item .notif-icon {
+        font-size: 14px;
+    }
+    
+    .notification-item .notif-time {
+        font-size: 9px;
+    }
+
+    /* ===== BADGES ===== */
+    .badge-item {
+        padding: 8px 0;
+        gap: 10px;
+    }
+    
+    .badge-item .badge-icon {
+        font-size: 22px;
+    }
+    
+    .badge-item .badge-info .badge-name {
+        font-size: 13px;
+    }
+    
+    .badge-item .badge-info .badge-desc {
+        font-size: 11px;
+    }
+    
+    .badge-item .badge-status {
+        font-size: 10px;
+    }
+
+    /* ===== WARNINGS ===== */
+    .warning-item {
+        font-size: 12px;
+        padding: 6px 0;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    
+    .warning-item .warning-icon {
+        font-size: 14px;
+    }
+    
+    .warning-item .warning-status {
+        font-size: 10px;
+        padding: 2px 8px;
+    }
+
+    /* ===== RANKING ===== */
+    .ranking-item {
+        font-size: 12px;
+        padding: 4px 0;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    
+    .ranking-item .rank-number {
+        font-size: 14px;
+        min-width: 24px;
+    }
+    
+    .ranking-item .rank-medal {
+        font-size: 16px;
+    }
+    
+    .ranking-item .rank-attendance {
+        font-size: 13px;
+    }
+
+    /* ===== MODALS ===== */
     .modal {
-        padding: 18px 20px;
+        padding: 16px 18px;
+        max-width: 95%;
+        border-radius: 16px;
     }
+    
+    .modal h2 {
+        font-size: 17px;
+    }
+    
+    .modal .subtitle {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+    
+    .modal .close-btn {
+        font-size: 18px;
+    }
+    
+    .modal-item {
+        font-size: 12px;
+        padding: 6px 0;
+    }
+    
+    .modal-grid {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+    
+    .cie-cell .cie-label {
+        font-size: 9px;
+    }
+    
+    .cie-cell .cie-value {
+        font-size: 16px;
+    }
+
+    /* ===== RATING STARS ===== */
     .stars {
         font-size: 30px;
         letter-spacing: 4px;
     }
-    .timetable-btn {
-        padding: 6px 14px;
+
+    /* ===== BUTTONS ===== */
+    .btn {
+        padding: 8px 16px;
         font-size: 12px;
+        border-radius: 8px;
     }
+    
+    .btn-sm {
+        padding: 4px 10px;
+        font-size: 10px;
+    }
+
+    /* ===== SIDEBAR ===== */
     .sidebar {
         width: 260px;
         left: -280px;
+        padding: 16px;
     }
+    
     .sidebar.open {
         left: 0;
     }
-    .login-box {
-        padding: 28px 20px;
+    
+    .sidebar-header h2 {
+        font-size: 17px;
     }
+    
+    .sidebar-user {
+        padding: 10px 12px;
+        gap: 10px;
+    }
+    
+    .sidebar-user .avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+    
+    .sidebar-user .user-info .name {
+        font-size: 13px;
+    }
+    
+    .sidebar-user .user-info .usn {
+        font-size: 10px;
+    }
+    
+    .sidebar-nav li a {
+        font-size: 12px;
+        padding: 8px 12px;
+        gap: 10px;
+    }
+    
+    .sidebar-nav li a i {
+        font-size: 14px;
+        width: 18px;
+    }
+    
+    .sidebar-nav .nav-label {
+        font-size: 9px;
+        padding: 6px 12px 2px;
+    }
+    
+    .sidebar-logout .logout-btn {
+        font-size: 12px;
+        padding: 10px 16px;
+        border-radius: 10px;
+    }
+
+    /* ===== LOGIN ===== */
+    .login-box {
+        padding: 24px 16px;
+        max-width: 95%;
+    }
+    
+    .login-box .logo-icon {
+        font-size: 36px;
+    }
+    
+    .login-box h1 {
+        font-size: 20px;
+    }
+    
+    .login-box .subtitle {
+        font-size: 12px;
+        margin-bottom: 16px;
+    }
+    
+    .login-box .form-group input {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+    
+    .login-box .login-btn {
+        padding: 12px;
+        font-size: 14px;
+    }
+    
+    .login-box .demo-hint {
+        font-size: 10px;
+    }
+
+    /* ===== SOCIAL LINKS ===== */
+    .social-links {
+        gap: 10px;
+    }
+    
     .social-links a {
-        padding: 6px 14px;
+        padding: 5px 12px;
+        font-size: 11px;
+        border-radius: 8px;
+    }
+    
+    .social-links a i {
+        font-size: 14px;
+    }
+
+    /* ===== DEVELOPER CARD ===== */
+    .developer-card .dev-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+    }
+    
+    .developer-card .dev-name {
+        font-size: 17px;
+    }
+    
+    .developer-card .dev-role {
         font-size: 12px;
     }
-    .card {
-        padding: 14px 16px;
+    
+    .developer-card .dev-bio {
+        font-size: 12px;
     }
-    .card-header h3 {
+
+    /* ===== IMPORTANT DATES ===== */
+    #datesSection div[style*="display:flex"] {
+        font-size: 12px !important;
+        gap: 2px !important;
+    }
+    
+    #datesSection h3 {
+        font-size: 15px !important;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+        font-size: 11px !important;
+        padding: 14px 0 8px !important;
+    }
+    
+    footer span {
+        font-size: 10px !important;
+    }
+
+    /* ===== SETTINGS PAGE ===== */
+    #settingsPage .card > div {
+        gap: 10px !important;
+    }
+    
+    #settingsPage .btn-sm {
+        font-size: 10px !important;
+        padding: 4px 10px !important;
+    }
+    
+    #settingsPage strong {
+        font-size: 13px !important;
+    }
+    
+    #settingsPage p {
+        font-size: 10px !important;
+    }
+    
+    #settingsPage .btn-primary {
+        font-size: 10px !important;
+        padding: 4px 10px !important;
+    }
+
+    /* ===== FACULTY PAGE ===== */
+    #facultyPageContent > div {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+    }
+    
+    .faculty-card {
+        padding: 12px !important;
+    }
+    
+    .faculty-card h4 {
+        font-size: 13px !important;
+    }
+    
+    .faculty-card p {
+        font-size: 11px !important;
+    }
+    
+    .faculty-card div[style*="font-size:64px"] {
+        font-size: 40px !important;
+    }
+    
+    .faculty-card div[style*="font-size:20px"] {
+        font-size: 16px !important;
+    }
+}
+/* ============================
+   EXTRA SMALL (Under 400px)
+============================ */
+@media (max-width: 400px) {
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+    
+    .stat-card {
+        padding: 8px 10px;
+        gap: 8px;
+    }
+    
+    .stat-card .icon {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+    
+    .stat-card .info .number {
         font-size: 15px;
     }
-    .chart-wrapper {
-        height: 120px;
+    
+    .stat-card .info .label {
+        font-size: 9px;
     }
-    .progress-bar {
-        height: 6px;
+    
+    .logo .student-name {
+        font-size: 14px;
+    }
+    
+    .logo .subtitle {
+        font-size: 9px;
+    }
+    
+    .header-right .date {
+        font-size: 9px;
+    }
+    
+    .badge-streak, .badge {
+        font-size: 8px;
+        padding: 1px 8px;
+    }
+    
+    #facultyPageContent > div {
+        grid-template-columns: 1fr !important;
     }
 }
