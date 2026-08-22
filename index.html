@@ -173,65 +173,66 @@
 
             <!-- DASHBOARD GRID -->
             <div class="dashboard-grid">
+        <!-- LEFT COLUMN -->
+        <div>
 
-                <!-- LEFT COLUMN -->
-                <div>
+            <!-- ⭐ ATTENDANCE & CIE - MOVED TO TOP -->
+            <div class="card" id="subjectsSection">
+                <div class="card-header">
+                    <h3><i class="fas fa-calendar-check" style="color:var(--accent);"></i> Attendance & CIE</h3>
+                    <span class="see-all" id="lastUpdated">Last updated: 22 Aug 2026</span>
+                </div>
+                <div id="subjectList">
+                    <!-- Subjects injected by JS -->
+                </div>
+            </div>
 
-                    <!-- 🔥 Attendance Warning -->
-                    <div class="card" id="warningSection">
-                        <div class="card-header">
-                            <h3><i class="fas fa-exclamation-triangle" style="color:#f59e0b;"></i> Attendance Warning</h3>
-                            <span class="see-all">Need attention</span>
-                        </div>
-                        <div id="warningList">
-                            <!-- Injected by JS -->
+            <!-- 🔥 Attendance Warning -->
+            <div class="card" id="warningSection">
+                <div class="card-header">
+                    <h3><i class="fas fa-exclamation-triangle" style="color:#f59e0b;"></i> Attendance Warning</h3>
+                    <span class="see-all">Need attention</span>
+                </div>
+                <div id="warningList">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+
+            <!-- 🏆 Subject Ranking -->
+            <div class="card" id="rankingSection">
+                <div class="card-header">
+                    <h3><i class="fas fa-trophy" style="color:#f59e0b;"></i> Subject Ranking</h3>
+                    <span class="see-all">Best to worst</span>
+                </div>
+                <div id="rankingList">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-chart-bar" style="color:var(--accent);"></i> Performance Overview</h3>
+                    <span class="see-all">Attendance & CIE Trends</span>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+                    <div>
+                        <div style="font-size:12px; color:var(--text-secondary); margin-bottom:2px;">Attendance Trend</div>
+                        <div class="chart-wrapper">
+                            <canvas id="attendanceChart"></canvas>
                         </div>
                     </div>
-
-                    <!-- 🏆 Subject Ranking -->
-                    <div class="card" id="rankingSection">
-                        <div class="card-header">
-                            <h3><i class="fas fa-trophy" style="color:#f59e0b;"></i> Subject Ranking</h3>
-                            <span class="see-all">Best to worst</span>
-                        </div>
-                        <div id="rankingList">
-                            <!-- Injected by JS -->
-                        </div>
-                    </div>
-
-                    <!-- Subjects Section -->
-                    <div class="card" id="subjectsSection">
-                        <div class="card-header">
-                            <h3><i class="fas fa-calendar-check" style="color:var(--accent);"></i> Attendance & CIE</h3>
-                            <span class="see-all" id="lastUpdated">Last updated: 22 Aug 2026</span>
-                        </div>
-                        <div id="subjectList">
-                            <!-- Subjects injected by JS -->
-                        </div>
-                    </div>
-
-                    <!-- Charts -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3><i class="fas fa-chart-bar" style="color:var(--accent);"></i> Performance Overview</h3>
-                            <span class="see-all">Attendance & CIE Trends</span>
-                        </div>
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-                            <div>
-                                <div style="font-size:12px; color:var(--text-secondary); margin-bottom:2px;">Attendance Trend</div>
-                                <div class="chart-wrapper">
-                                    <canvas id="attendanceChart"></canvas>
-                                </div>
-                            </div>
-                            <div>
-                                <div style="font-size:12px; color:var(--text-secondary); margin-bottom:2px;">CIE Performance</div>
-                                <div class="chart-wrapper">
-                                    <canvas id="cieChart"></canvas>
-                                </div>
-                            </div>
+                    <div>
+                        <div style="font-size:12px; color:var(--text-secondary); margin-bottom:2px;">CIE Performance</div>
+                        <div class="chart-wrapper">
+                            <canvas id="cieChart"></canvas>
                         </div>
                     </div>
                 </div>
+            </div>
+
+        </div>
+                
 
                 <!-- RIGHT COLUMN -->
                 <div>
