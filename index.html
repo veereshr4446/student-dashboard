@@ -124,6 +124,15 @@
 
         <!-- STATS -->
         <section class="stats-grid" id="statsGrid">
+            <!-- 🔥 Streak - NOW FIRST -->
+            <div class="stat-card" onclick="showToast('🔥 Your streak: ' + (localStorage.getItem('streak') || 0) + ' days!')">
+                <div class="icon" style="color:#f59e0b; background:rgba(245,158,11,0.1);"><i class="fas fa-fire"></i></div>
+                <div class="info">
+                    <div class="number" id="streakCardCount">15</div>
+                    <div class="label">Day Streak</div>
+                </div>
+            </div>
+            
             <div class="stat-card" onclick="showAllSubjects()">
                 <div class="icon"><i class="fas fa-user-graduate"></i></div>
                 <div class="info">
@@ -152,15 +161,7 @@
                     <div class="label">Below 85%</div>
                 </div>
             </div>
-            <!-- 🔥 Streak Flashcard -->
-            <div class="stat-card" onclick="showToast('🔥 Your streak: ' + (localStorage.getItem('streak') || 0) + ' days!')">
-                <div class="icon" style="color:#f59e0b; background:rgba(245,158,11,0.1);"><i class="fas fa-fire"></i></div>
-                <div class="info">
-                    <div class="number" id="streakCardCount">15</div>
-                    <div class="label">Day Streak</div>
-                </div>
-            </div>
-            <!-- 📅 College Events Flashcard -->
+            <!-- 📅 College Events -->
             <div class="stat-card" onclick="showCollegeEvents()">
                 <div class="icon" style="color:#8b5cf6; background:rgba(139,92,246,0.1);"><i class="fas fa-calendar-alt"></i></div>
                 <div class="info">
@@ -424,7 +425,7 @@
 
                     <!-- Version -->
                     <div style="text-align:center; padding:10px 0; color:var(--text-secondary); font-size:12px;">
-                        ✨ Version 2.0 · Xīng Chén (星辰) · Built with ❤️
+                        ✨ Founder of Xīng Chén (星辰) · Built with ❤️ by Viresh Ranjanagi<br>
                     </div>
 
                 </div>
@@ -434,7 +435,7 @@
         <!-- Footer -->
         <footer style="text-align: center; padding: 20px 0 10px; color: var(--text-secondary); font-size: 13px; border-top: 1px solid var(--border-color); margin-top: 20px;">
             <p>
-                © 2026 Student Dashboard · Built with ❤️ by Viresh
+                © 2026 Student Dashboard · Built with ❤️ by Viresh R
                 <br>
                 <span style="font-size: 12px; opacity: 0.7;">
                     ✨ Founder of <strong style="color: var(--accent);">Xīng Chén (星辰)</strong>

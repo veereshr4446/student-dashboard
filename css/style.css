@@ -1397,11 +1397,11 @@ body::before {
     }
     
     .logo .student-name {
-        font-size: 12px !important;
+        font-size: 13px !important;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100px;
+        overflow: visible !important;  /* CHANGE THIS */
+        text-overflow: clip !important;  /* CHANGE THIS */
+        max-width: none !important;  /* REMOVE THE LIMIT */
     }
     
     .logo .subtitle {
